@@ -1,7 +1,7 @@
-Android application for Roomra
+Roomer - Android
 ===================
 
-Server side code: http://github.com/amend/roomer
+Roomer - Server: http://github.com/amend/roomer
 
-iOS application for Roomra: http://github.com/amend/roomer-ios
+Roomer - iOS: http://github.com/amend/roomer-ios
 
