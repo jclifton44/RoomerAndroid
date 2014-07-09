@@ -62,25 +62,53 @@ public class AuthenticationService {
                     Log.d(response, "SSL REQUEST");
                     System.out.println("SSL REQUEST " + response);
                 }
-                if(spe.getClientId() == null) {
-                    List<BasicNameValuePair> pv = new ArrayList(3);
-                    //pv.add("accessToken", "accessToken");
-                    //String response = performAuthRequest("/db/user/getClient")
-
-                    //check to see if user has a registered client
+                if(spe.getClientId() == null || spe.getClientId() == "") {
+                    if(spe.getAuthToken() != null){
+                        //check client existence
+                        List<BasicNameValuePair> pv = new ArrayList(3);
+                        pv.add(new BasicNameValuePair("accessToken", spe.getAuthToken()));
+                        String response = performAuthRequest("db/user/getClient", pv);
+                        String error = ((JsonObject)new JsonParser().parse(response)).get("error").toString();
+                        if(error == null || error == "") {
+                            //Create a client
+                            pv = new ArrayList(4);
+                            pv.add(new BasicNameValuePair("clientType", "public"));
+                            pv.add(new BasicNameValuePair("clientType", "native"));
+                            pv.add(new BasicNameValuePair("clientType", "https://roomra.com/frontPage"));
+                            pv.add(new BasicNameValuePair("accessToken", spe.getAuthToken()));
+                            String clientResponse = performAuthRequest("oauth2/client-registration", pv);
+                            String clientErrorResults = ((JsonObject) new JsonParser().parse(clientResponse)).get("error").toString();
+                            String clientIdResults = ((JsonObject) new JsonParser().parse(clientResponse)).get("clientId").toString();
+                            if(clientErrorResults == "" || clientErrorResults == null) {
+                                    //Authentication Failed (spe entries should be null
+                            } else {
+                                   Log.d("client created for User", "No error");
+                                   spe.putClientId(clientId);
+                            }
+                        } else {
+                            String clientId = ((JsonObject)new JsonParser().parse(response)).get("clientId").toString();
+                            spe.putClientId(clientId);
+                            Log.d("CLIENT ID",clientId);
+                        }
+                    }
+                    //FUTURE: get LOW-PRIVELEDGE ACCESS client ID
                 }
-            } else if(spe.getClientId() != null) {
-                //use client ID to get access token
             } else {
-                //use username and password to get access token
                 List<BasicNameValuePair> pv = new ArrayList(3);
                 pv.add(new BasicNameValuePair("userId", un));
                 pv.add(new BasicNameValuePair("password", password));
-                String response = performAuthRequest("/oauth2/authenticate", pv);
-                Log.d(response, "this ist he response");
-               // if()
+                String ownerResponse = performAuthRequest("login", pv);
+                String ownerError = ((JsonObject) new JsonParser().parse(ownerResponse)).get("error").toString();
+                String ownerAuthToken = ((JsonObject) new JsonParser().parse(ownerResponse)).get("accessToken").toString();
+                if(ownerError == null || ownerError == "") {
 
-            }
+                } else {
+                    spe.putAuthToken(ownerAuthToken);
+                }
+
+
+        }
+        } catch (Exception e) {
             //see if an Auth code exists in the spe
             // check expiration time, receiving time and current time ( is it expired? )
             // if close to EXPIRY use REFRESH TOKEN to get a new AccessToken
