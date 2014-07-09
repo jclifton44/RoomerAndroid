@@ -11,6 +11,8 @@ import android.view.View.OnTouchListener;
 import android.widget.HorizontalScrollView;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+
+import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
@@ -18,20 +20,23 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.OutputStream;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 
 import java.lang.Package;
 import java.util.HashMap;
-
+import java.io.StringWriter;
 public class AuthenticationService {
     private SharedPreferencesEditor sharedEditor;
     private String accessToken = null;
     private String refreshToken = null;
     private String clientId = null;
-    public String requestUrl = null;
+    public static String requestUrl = null;
     public static String URL = new String("https://localhost:8001");
     AuthenticationService(SharedPreferencesEditor spe, String un, String password) {
         try{
-            this.requestUrl = SharedPreferencesEditor.https + SharedPreferencesEditor.host + SharedPreferencesEditor.port_https;
+            this.requestUrl = "https://www.roomra.com/";
             this.sharedEditor = spe;
             Log.d("creating SPE", "SPE");
         if(spe.getAuthToken() != null) {
@@ -43,6 +48,17 @@ public class AuthenticationService {
                     pv.add(new BasicNameValuePair("refreshToken", spe.getRefreshToken()));
 
                     String response = performAuthRequest("oauth2/authenticate", pv);
+                    String error = ((JsonObject)new JsonParser().parse(response)).get("error").toString();
+                    if(error != null) {
+                        Log.d("----","error");
+                    } else {
+                        String token = ((JsonObject)new JsonParser().parse(response)).get("accessToken").toString();
+                        String refresh = ((JsonObject)new JsonParser().parse(response)).get("refreshToken").toString();
+                        spe.putAuthToken(token);
+                        spe.putRefreshToken(refresh);
+                        Log.d(token,refresh);
+
+                    }
                     Log.d(response, "SSL REQUEST");
                     System.out.println("SSL REQUEST " + response);
                 }
@@ -77,36 +93,33 @@ public class AuthenticationService {
 
         }
     }
-    public String performAuthRequest(String path, List<BasicNameValuePair> postVars) {
+    public static String performAuthRequest(String path, List<BasicNameValuePair> postVars) {
         //HashMap
         String response = "";
+        String temp = "";
         try {
             URL url = new URL(requestUrl + path);
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(postVars);
             HttpsURLConnection request = (HttpsURLConnection) url.openConnection();
 
-            request.setDoOutput(true);
-            request.setDoInput(true);
-            request.setUseCaches(false);
+            //request.setDoOutput(true);
+            //request.setDoInput(true);
+            //request.setUseCaches(false);
 
             request.setRequestMethod("POST");
 
-            OutputStream post = request.getOutputStream();
-            entity.writeTo(post);
-            post.flush();
-            BufferedReader in = new BufferedReader(new InputStreamReader(request.getInputStream()));
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                response += inputLine;
+            InputStream in = request.getInputStream();
+            BufferedReader bufferedIn = new BufferedReader(new InputStreamReader(request.getInputStream()));
+            StringBuilder responseString = new StringBuilder();
+            while ((response = bufferedIn.readLine()) != null) {
+                responseString.append(response);
             }
-            post.close();
-            in.close();
+            response = responseString.toString();
         } catch(Exception e) {
             System.out.println("error: %s"  + e);
             Log.d("error", "There was an error!");
 
         } finally {
-
         }
         return response;
 
