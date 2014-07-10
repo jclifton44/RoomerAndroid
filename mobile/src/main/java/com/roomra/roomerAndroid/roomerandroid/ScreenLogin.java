@@ -119,7 +119,7 @@ public class ScreenLogin extends Activity
         }
         if(requestReady) {
             AuthenticationService au =  new AuthenticationService(screenLogin.spe, screenLogin.mUserName, screenLogin.mPassword);
-               // if(screenLogin.spe.getAuthToken().length() > 8) {
+                if(au.isAuthenticated()) {
                     Log.d("Starting second Ac", "Yep1");
                     Intent localIntent = new Intent(screenLogin, RoomerFrontPage.class);
                     Log.d("Starting second Ac", "Yep2");
@@ -132,7 +132,7 @@ public class ScreenLogin extends Activity
                     //localSharedPreferencesEditor.putHandle(((JsonObject)new JsonParser().parse(str)).get("handle").toString());
                     localSharedPreferencesEditor.commitChanges();
                     finish();
-              //  }
+                }
             return;
             } else {
                 localEditText.requestFocus();

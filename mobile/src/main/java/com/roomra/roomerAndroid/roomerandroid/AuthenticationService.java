@@ -35,6 +35,7 @@ public class AuthenticationService {
     public static String requestUrl = null;
 
     AuthenticationService(SharedPreferencesEditor spe, String un, String password) {
+        this.sharedEditor = spe;
         try{
             Log.d("creating SPE", "SPE");
             Log.d(spe.getAuthToken().length() + "", "THE AUTH TOKEN");
@@ -143,7 +144,16 @@ public class AuthenticationService {
         String authToken = this.sharedEditor.getAuthToken();
         ArrayList<BasicNameValuePair> nvp = new ArrayList<BasicNameValuePair>();
         nvp.add(new BasicNameValuePair("accessToken", authToken));
-        return true;
+        String response = AsyncConnection.secureRESTCall("checkToken", nvp);
+        Log.d("IS AUTHENTICATED", response);
+
+        String authenticated = ((JsonObject)new JsonParser().parse(response)).get("authenticated").toString();
+
+        if(authenticated == "true") {
+
+            return true;
+        }
+        return false;
         //AsyncConnection.secureRESTCall("")
     }
 
