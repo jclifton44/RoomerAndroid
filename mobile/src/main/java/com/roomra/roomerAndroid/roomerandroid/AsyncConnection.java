@@ -48,7 +48,17 @@ public class AsyncConnection extends AsyncTask<Task, Integer, String> {
 
     @Override
     protected String doInBackground(Task... tasks) {
-        return "{error:191, errorDescription:'Async Interface not defined'}";
+        int i = 0;
+        StringBuilder sb = new StringBuilder();
+        sb.append("{[");
+        for (i=0; i < tasks.length; i++){
+            sb.append(tasks[i].performTask();
+            if((i + 1) < tasks.length) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]}");
+        return sb.toString();
     }
     @Override
     protected void onPostExecute(String result) {

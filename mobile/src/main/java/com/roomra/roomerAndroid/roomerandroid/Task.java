@@ -14,4 +14,7 @@ public class Task {
     public Task(TaskType tt, String path, ArrayList<BasicNameValuePair> postVars) {
 
     }
+    public String performTask(){
+
+    }
 }
