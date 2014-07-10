@@ -33,11 +33,9 @@ public class AuthenticationService {
     private String refreshToken = null;
     private String clientId = null;
     public static String requestUrl = null;
-    public static String URL = new String("https://localhost:8001");
+
     AuthenticationService(SharedPreferencesEditor spe, String un, String password) {
         try{
-            this.requestUrl = "https://www.roomra.com/";
-            this.sharedEditor = spe;
             Log.d("creating SPE", "SPE");
             Log.d(spe.getAuthToken().length() + "", "THE AUTH TOKEN");
             Log.d(spe.getAuthToken(), "THE AUTH TOKEN");
@@ -52,10 +50,13 @@ public class AuthenticationService {
                 Long creationTime = new Long(spe.getCreationTime());
                 Long nowTime = new Long(System.currentTimeMillis());
                 if(nowTime > (expiry + creationTime - 30000)) {
-                    List<BasicNameValuePair> pv = new ArrayList(3);
+                    ArrayList<BasicNameValuePair> pv = new ArrayList(3);
                     pv.add(new BasicNameValuePair("refreshToken", spe.getRefreshToken()));
 
-                    String response = AsyncConnection.secureRESTCall("oauth2/authenticate", pv);
+                    AsyncConnection asyncConnection = new AsyncConnection(false, new Task(TaskType.DB, "login", pv));
+                    String response = asyncConnection.connect();
+                    Log.d("RESONSE", response);
+                    pv.add(new BasicNameValuePair("refreshToken", spe.getRefreshToken()));
                     String error = ((JsonObject)new JsonParser().parse(response)).get("error").toString();
                     if(error != null) {
                         Log.d("----","error");
@@ -67,13 +68,12 @@ public class AuthenticationService {
                         Log.d(token,refresh);
 
                     }
-                    Log.d(response, "SSL REQUEST");
-                    System.out.println("SSL REQUEST " + response);
+
                 }
                 if(spe.getClientId() == null || spe.getClientId() == "") {
-                    if(spe.getAuthToken() != null){
+                    if(spe.getAuthToken().length() > 8){
                         //check client existence
-                        List<BasicNameValuePair> pv = new ArrayList(3);
+                        ArrayList<BasicNameValuePair> pv = new ArrayList(3);
                         pv.add(new BasicNameValuePair("accessToken", spe.getAuthToken()));
                         String response = AsyncConnection.secureRESTCall("db/user/getClient", pv);
                         String error = ((JsonObject)new JsonParser().parse(response)).get("error").toString();
@@ -137,6 +137,14 @@ public class AuthenticationService {
         } finally {
 
         }
+    }
+
+    public boolean isAuthenticated() {
+        String authToken = this.sharedEditor.getAuthToken();
+        ArrayList<BasicNameValuePair> nvp = new ArrayList<BasicNameValuePair>();
+        nvp.add(new BasicNameValuePair("accessToken", authToken));
+        return true;
+        //AsyncConnection.secureRESTCall("")
     }
 
     public void setSharedPreferences(SharedPreferencesEditor spe) {

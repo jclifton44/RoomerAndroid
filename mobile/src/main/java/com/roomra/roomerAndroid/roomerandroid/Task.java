@@ -6,15 +6,26 @@ import java.util.ArrayList;
  * Created by jeremyclifton on 7/9/14.
  */
 public class Task {
-    public enum TaskType{
-        DB,
-        GEOLOCATE,
-        AGGREGATE
-    }
+    public String path;
+    public ArrayList<BasicNameValuePair> postVars;
+    public TaskType tt;
     public Task(TaskType tt, String path, ArrayList<BasicNameValuePair> postVars) {
-
+        this.tt = tt;
+        this.path = path;
+        this.postVars = postVars;
     }
     public String performTask(){
+       switch (this.tt) {
+           case DB:
+               return AsyncConnection.secureRESTCall(path, postVars);
+           case GEOLOCATE:
+               return "";
+           case AGGREGATE:
+               return "";
+
+           default:
+               return "";
+       }
 
     }
 }

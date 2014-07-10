@@ -27,19 +27,20 @@ import org.apache.http.util.EntityUtils;
  */
 public class AsyncConnection extends AsyncTask<Task, Integer, String> {
     private boolean isAsync;
-    private AsyncTask at;
-    public AsyncConnection(boolean isAsync, AsyncTask at){
+    private Task[] ats;
+    public AsyncConnection(boolean isAsync, Task... ats) {
         this.isAsync = isAsync;
-        this.at = at;
+        this.ats = ats;
     }
 
     public String connect() {
         if(isAsync) {
-
+            this.execute(ats);
+            return "";
         } else {
-
+            return doInBackground(ats);
         }
-        return "";
+
     }
     @Override
     protected void onProgressUpdate(Integer... progress) {
@@ -48,23 +49,26 @@ public class AsyncConnection extends AsyncTask<Task, Integer, String> {
 
     @Override
     protected String doInBackground(Task... tasks) {
+        //Call Progress update to do updates and interface w/ UI
         int i = 0;
         StringBuilder sb = new StringBuilder();
         sb.append("{[");
         for (i=0; i < tasks.length; i++){
-            sb.append(tasks[i].performTask();
+            sb.append(tasks[i].performTask());
             if((i + 1) < tasks.length) {
                 sb.append(", ");
             }
         }
         sb.append("]}");
-        return sb.toString();
+        String retval = sb.toString();
+        Log.d("Creating JSON of task group...", retval);
+        return retval;
     }
     @Override
     protected void onPostExecute(String result) {
 
     }
-    public String secureRESTCall(String path, List<BasicNameValuePair> postVars) {
+    public static String secureRESTCall(String path, List<BasicNameValuePair> postVars) {
            String finalResponse = "";
         try {
             StringBuilder qString = new StringBuilder();
