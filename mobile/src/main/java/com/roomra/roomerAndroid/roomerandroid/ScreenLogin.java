@@ -40,6 +40,7 @@ public class ScreenLogin extends Activity
     private EditText mPasswordView;
     private String mUserName;
     private EditText mUserNameView;
+    public SharedPreferencesEditor spe;
 
 
     public void attemptLogin()
@@ -110,6 +111,7 @@ public class ScreenLogin extends Activity
         getActionBar().hide();
         Log.d("Logging", "logw");
         Log.d("Logging", "lowwg");
+        spe = new SharedPreferencesEditor(getApplicationContext(), "roomra");
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         this.mUserName = getIntent().getStringExtra("com.example.android.authenticatordemo.extra.EMAIL");
         Log.d("Logging", "lsog");
@@ -119,6 +121,11 @@ public class ScreenLogin extends Activity
         Log.d("Logging", "logqw");
         this.mPasswordView = ((EditText)findViewById(R.id.password));
         Log.d("Logging", "lw");
+        try {
+            AuthenticationService as = new AuthenticationService(spe, "clifton", "anyanton");
+        }catch(Exception e){
+
+        }
     /*this.mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener()
     {
       public boolean onEditorAction(TextView paramAnonymousTextView, int paramAnonymousInt, KeyEvent paramAnonymousKeyEvent)

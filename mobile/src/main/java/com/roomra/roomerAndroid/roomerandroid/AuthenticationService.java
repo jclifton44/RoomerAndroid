@@ -39,15 +39,23 @@ public class AuthenticationService {
             this.requestUrl = "https://www.roomra.com/";
             this.sharedEditor = spe;
             Log.d("creating SPE", "SPE");
-        if(spe.getAuthToken() != null) {
+            Log.d(spe.getAuthToken().length() + "", "THE AUTH TOKEN");
+            Log.d(spe.getAuthToken(), "THE AUTH TOKEN");
+            Log.d(spe.getAuthToken().length() + "", "THE AUTH TOKEN");
+
+            Log.d(spe.getAuthToken().length() + "", "THE AUTH TOKEN");
+
+
+            if(spe.getAuthToken().length() > 8){
+
                 Long expiry = new Long(spe.getExpiry());
                 Long creationTime = new Long(spe.getCreationTime());
                 Long nowTime = new Long(System.currentTimeMillis());
-                if(expiry == 0 || creationTime == 0 || nowTime > (expiry + creationTime - 30000)) {
+                if(nowTime > (expiry + creationTime - 30000)) {
                     List<BasicNameValuePair> pv = new ArrayList(3);
                     pv.add(new BasicNameValuePair("refreshToken", spe.getRefreshToken()));
 
-                    String response = performAuthRequest("oauth2/authenticate", pv);
+                    String response = AsyncConnection.secureRESTCall("oauth2/authenticate", pv);
                     String error = ((JsonObject)new JsonParser().parse(response)).get("error").toString();
                     if(error != null) {
                         Log.d("----","error");
@@ -67,7 +75,7 @@ public class AuthenticationService {
                         //check client existence
                         List<BasicNameValuePair> pv = new ArrayList(3);
                         pv.add(new BasicNameValuePair("accessToken", spe.getAuthToken()));
-                        String response = performAuthRequest("db/user/getClient", pv);
+                        String response = AsyncConnection.secureRESTCall("db/user/getClient", pv);
                         String error = ((JsonObject)new JsonParser().parse(response)).get("error").toString();
                         if(error == null || error == "") {
                             //Create a client
@@ -76,7 +84,7 @@ public class AuthenticationService {
                             pv.add(new BasicNameValuePair("clientType", "native"));
                             pv.add(new BasicNameValuePair("clientType", "https://roomra.com/frontPage"));
                             pv.add(new BasicNameValuePair("accessToken", spe.getAuthToken()));
-                            String clientResponse = performAuthRequest("oauth2/client-registration", pv);
+                            String clientResponse = AsyncConnection.secureRESTCall("oauth2/client-registration", pv);
                             String clientErrorResults = ((JsonObject) new JsonParser().parse(clientResponse)).get("error").toString();
                             String clientIdResults = ((JsonObject) new JsonParser().parse(clientResponse)).get("clientId").toString();
                             if(clientErrorResults == "" || clientErrorResults == null) {
@@ -94,10 +102,19 @@ public class AuthenticationService {
                     //FUTURE: get LOW-PRIVELEDGE ACCESS client ID
                 }
             } else {
+                Log.d("AUTH", "No AuthToken. Making new1");
                 List<BasicNameValuePair> pv = new ArrayList(3);
+                Log.d("AUTH", "No AuthToken. + " + un);
+                Log.d("AUTH", "No AuthToken. + " + password);
+
                 pv.add(new BasicNameValuePair("userId", un));
+                Log.d("AUTH", "No AuthToken. Making new3");
+
                 pv.add(new BasicNameValuePair("password", password));
-                String ownerResponse = performAuthRequest("login", pv);
+                Log.d("AUTH", "No AuthToken. Making new4");
+
+                String ownerResponse = AsyncConnection.secureRESTCall("login", pv);
+                Log.d(ownerResponse, "THIS>>");
                 String ownerError = ((JsonObject) new JsonParser().parse(ownerResponse)).get("error").toString();
                 String ownerAuthToken = ((JsonObject) new JsonParser().parse(ownerResponse)).get("accessToken").toString();
                 if(ownerError == null || ownerError == "") {
@@ -121,37 +138,7 @@ public class AuthenticationService {
 
         }
     }
-    public static String performAuthRequest(String path, List<BasicNameValuePair> postVars) {
-        //HashMap
-        String response = "";
-        String temp = "";
-        try {
-            URL url = new URL(requestUrl + path);
-            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(postVars);
-            HttpsURLConnection request = (HttpsURLConnection) url.openConnection();
 
-            //request.setDoOutput(true);
-            //request.setDoInput(true);
-            //request.setUseCaches(false);
-
-            request.setRequestMethod("POST");
-
-            InputStream in = request.getInputStream();
-            BufferedReader bufferedIn = new BufferedReader(new InputStreamReader(request.getInputStream()));
-            StringBuilder responseString = new StringBuilder();
-            while ((response = bufferedIn.readLine()) != null) {
-                responseString.append(response);
-            }
-            response = responseString.toString();
-        } catch(Exception e) {
-            System.out.println("error: %s"  + e);
-            Log.d("error", "There was an error!");
-
-        } finally {
-        }
-        return response;
-
-    }
     public void setSharedPreferences(SharedPreferencesEditor spe) {
         this.sharedEditor = spe;
     }

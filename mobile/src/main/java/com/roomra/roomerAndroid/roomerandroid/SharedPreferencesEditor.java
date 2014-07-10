@@ -12,11 +12,7 @@ public class SharedPreferencesEditor
     public Editor ed;
     public SharedPreferences pref;
     public String preferenceName;
-    public static String http = new String("http://");
-    public static String https = new String("https://");
-    public static String host = new String("roomra.com");
-    public static String port_https = new String(":8001");
-    public static String port_http = new String(":8000");
+
     /*
     Most of these are one liners. We can add a transformation layer as needed, though :)
      */
