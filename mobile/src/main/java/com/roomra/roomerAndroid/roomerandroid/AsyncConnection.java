@@ -73,7 +73,7 @@ public class AsyncConnection extends AsyncTask<Task, Integer, String> {
         try {
             StringBuilder qString = new StringBuilder();
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(RoomerConstants.ROOMRA_URL);
+            HttpPost httppost = new HttpPost(RoomerConstants.ROOMRA_URL + path);
             httppost.setEntity(new UrlEncodedFormEntity(postVars));
 
             HttpResponse response = httpclient.execute(httppost);

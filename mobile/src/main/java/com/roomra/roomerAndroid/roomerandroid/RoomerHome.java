@@ -40,7 +40,7 @@ public class RoomerHome extends Activity
     {
         Log.d("RoomerHome", "Attempting Login");
         //DefaultHttpClient localDefaultHttpClient = new DefaultHttpClient();
-        AuthenticationService homeAuthenticationService = new AuthenticationService(spe, "clifton", "anyanton");
+        //AuthenticationService homeAuthenticationService = new AuthenticationService(spe, "clifton", "anyanton");
         Log.d("loging", "logggg");
     }
 

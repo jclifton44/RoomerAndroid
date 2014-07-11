@@ -119,9 +119,11 @@ public class ScreenLogin extends Activity
         }
         if(requestReady) {
             AuthenticationService au =  new AuthenticationService(screenLogin.spe, screenLogin.mUserName, screenLogin.mPassword);
-                if(au.isAuthenticated()) {
+            //AuthenticationService au = new AuthenticationService(screenLogin.spe);
+                if(au.isAuth) {
                     Log.d("Starting second Ac", "Yep1");
                     Intent localIntent = new Intent(screenLogin, RoomerFrontPage.class);
+                    localIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     Log.d("Starting second Ac", "Yep2");
                     screenLogin.startActivity(localIntent);
                     Log.d("Starting second Ac", "Yep3");

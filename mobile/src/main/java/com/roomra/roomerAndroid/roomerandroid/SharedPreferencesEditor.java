@@ -11,7 +11,7 @@ public class SharedPreferencesEditor
 {
     public Editor ed;
     public SharedPreferences pref;
-    public String preferenceName;
+    public String preferenceName = "1KEY";
 
     /*
     Most of these are one liners. We can add a transformation layer as needed, though :)
@@ -19,7 +19,7 @@ public class SharedPreferencesEditor
     public SharedPreferencesEditor(Context paramContext, String paramString)
     {
         this.pref = paramContext.getSharedPreferences(paramString, 0);
-        this.preferenceName = paramString;
+        //this.preferenceName = paramString;
         ed = getEditor();
     }
 
@@ -61,9 +61,9 @@ public class SharedPreferencesEditor
 
     public String getAuthorizationCode() { return this.pref.getString("key_code", this.preferenceName); }
 
-    public Integer getExpiry() { return this.pref.getInt("key_expiry", 0);}
+    public Long getExpiry() { return this.pref.getLong("key_expiry", 0);}
 
-    public Integer getCreationTime() { return this.pref.getInt("key_time", 0);}
+    public Long getCreationTime() { return this.pref.getLong("key_time", 0);}
 
 
     public void putHandle(String paramString) {
@@ -106,12 +106,12 @@ public class SharedPreferencesEditor
         this.ed.commit();
     }
 
-    public void putExpirey(Integer paramInt) {
-        this.ed.putInt("key_expiry", paramInt);
+    public void putExpiry(Long paramInt) {
+        this.ed.putLong("key_expiry", paramInt);
         this.ed.commit();
     }
-    public void putCreationTime(Integer paramInt) {
-        this.ed.putInt("key_time", paramInt);
+    public void putCreationTime(Long paramInt) {
+        this.ed.putLong("key_time", paramInt);
         this.ed.commit();
     }
 }

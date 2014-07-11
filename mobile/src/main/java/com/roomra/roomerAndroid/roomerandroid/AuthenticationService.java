@@ -32,8 +32,13 @@ public class AuthenticationService {
     private String accessToken = null;
     private String refreshToken = null;
     private String clientId = null;
+    public Boolean isAuth = false;
     public static String requestUrl = null;
+    AuthenticationService(SharedPreferencesEditor spe) {
+        this.sharedEditor = spe;
+        this.isAuth = isAuthenticated();
 
+    }
     AuthenticationService(SharedPreferencesEditor spe, String un, String password) {
         this.sharedEditor = spe;
         try{
@@ -42,15 +47,16 @@ public class AuthenticationService {
             Log.d(spe.getAuthToken(), "THE AUTH TOKEN");
             Log.d(spe.getAuthToken().length() + "", "THE AUTH TOKEN");
 
-            Log.d(spe.getAuthToken().length() + "", "THE AUTH TOKEN");
+            Log.d(spe.getClientId() + "", "THE AUTH TOKEN");
 
 
-            if(spe.getAuthToken().length() > 8){
-
+            if(spe.getAuthToken() != "1KEY"){
+            //if(false) {
                 Long expiry = new Long(spe.getExpiry());
                 Long creationTime = new Long(spe.getCreationTime());
                 Long nowTime = new Long(System.currentTimeMillis());
-                if(nowTime > (expiry + creationTime - 30000)) {
+                this.isAuth = true;
+                if(nowTime < (expiry + creationTime)) {
                     ArrayList<BasicNameValuePair> pv = new ArrayList(3);
                     pv.add(new BasicNameValuePair("refreshToken", spe.getRefreshToken()));
 
@@ -67,13 +73,14 @@ public class AuthenticationService {
                         spe.putAuthToken(token);
                         spe.putRefreshToken(refresh);
                         Log.d(token,refresh);
-
+                        this.isAuth = true;
                     }
 
                 }
-                if(spe.getClientId() == null || spe.getClientId() == "") {
-                    if(spe.getAuthToken().length() > 8){
+                if(spe.getClientId() == "1KEY") {
+                    if(spe.getAuthToken() != "1KEY"){
                         //check client existence
+                        Log.d("WOW", "MAKING CLIENT");
                         ArrayList<BasicNameValuePair> pv = new ArrayList(3);
                         pv.add(new BasicNameValuePair("accessToken", spe.getAuthToken()));
                         String response = AsyncConnection.secureRESTCall("db/user/getClient", pv);
@@ -114,18 +121,52 @@ public class AuthenticationService {
                 pv.add(new BasicNameValuePair("password", password));
                 Log.d("AUTH", "No AuthToken. Making new4");
 
-                String ownerResponse = AsyncConnection.secureRESTCall("login", pv);
-                Log.d(ownerResponse, "THIS>>");
-                String ownerError = ((JsonObject) new JsonParser().parse(ownerResponse)).get("error").toString();
-                String ownerAuthToken = ((JsonObject) new JsonParser().parse(ownerResponse)).get("accessToken").toString();
-                if(ownerError == null || ownerError == "") {
-
-                } else {
-                    spe.putAuthToken(ownerAuthToken);
+                String ownerResponse = AsyncConnection.secureRESTCall("login/", pv);
+                Log.d("THIS>>", ownerResponse);
+                JsonObject JSONOwnerResponse = (JsonObject) new JsonParser().parse(ownerResponse);
+                String errorResponse = "";
+                String accessTokenResponse = "";
+                String refreshTokenResponse = "";
+                if (JSONOwnerResponse.get("error") != null) {
+                    errorResponse = JSONOwnerResponse.get("error").toString();
+                    Log.d("ERROR", errorResponse);
+                } else if (JSONOwnerResponse.get("accessToken") != null) {
+                    if (JSONOwnerResponse.get("refreshToken") != null) {
+                        refreshTokenResponse = JSONOwnerResponse.get("refreshToken").toString();
+                    }
+                    accessTokenResponse = JSONOwnerResponse.get("accessToken").toString();
+                    Log.d("AUTHENTICATED", accessTokenResponse);
+                    spe.putAuthToken(accessTokenResponse);
+                    spe.putRefreshToken(refreshTokenResponse);
+                    spe.putExpiry(new Long(Integer.parseInt(JSONOwnerResponse.get("expires").toString())));
+                    spe.putCreationTime(new Long(System.currentTimeMillis()));
+                    this.isAuth = true;
                 }
+                ArrayList<BasicNameValuePair> clientPv = new ArrayList(3);
+                clientPv.add(new BasicNameValuePair("accessToken", spe.getAuthToken()));
+                String response = AsyncConnection.secureRESTCall("db/user/getClient", pv);
+                JSONOwnerResponse = (JsonObject) new JsonParser().parse(response);
+                if (JSONOwnerResponse.get("error") != null) {
+                    clientPv = new ArrayList(4);
+                    clientPv.add(new BasicNameValuePair("clientType", "public"));
+                    clientPv.add(new BasicNameValuePair("clientType", "native"));
+                    clientPv.add(new BasicNameValuePair("clientType", "https://roomra.com/frontPage"));
+                    clientPv.add(new BasicNameValuePair("accessToken", spe.getAuthToken()));
+                    String clientResponse = AsyncConnection.secureRESTCall("oauth2/client-registration", pv);
+                    JsonObject JSONClientResponse = (JsonObject) new JsonParser().parse(clientResponse);
+                    String clientIdResults = ((JsonObject) new JsonParser().parse(clientResponse)).get("clientId").toString();
+                    if (JSONClientResponse.get("error") == null) {
+                        //Authentication Failed (spe entries should be null
+                        Log.d("client created for User", "No error");
+                        spe.putClientId(clientId);
+                    } else {
+                        Log.d("Error", "client not found");
+                    }
+                } else if (JSONOwnerResponse.get("client") != null) {
+                    spe.putClientId(JSONOwnerResponse.get("client").toString());
+                }
+            }
 
-
-        }
         } catch (Exception e) {
             //see if an Auth code exists in the spe
             // check expiration time, receiving time and current time ( is it expired? )
@@ -136,25 +177,34 @@ public class AuthenticationService {
             //if client not registered for user, register client - Save access Token as well as client to the editor
 
         } finally {
-
+            //this.isAuth = isAuthenticated();
         }
     }
 
     public boolean isAuthenticated() {
+
         String authToken = this.sharedEditor.getAuthToken();
+        Log.d("AUTHENTICATING...", authToken);
         ArrayList<BasicNameValuePair> nvp = new ArrayList<BasicNameValuePair>();
         nvp.add(new BasicNameValuePair("accessToken", authToken));
         String response = AsyncConnection.secureRESTCall("checkToken", nvp);
         Log.d("IS AUTHENTICATED", response);
-
-        String authenticated = ((JsonObject)new JsonParser().parse(response)).get("authenticated").toString();
-
-        if(authenticated == "true") {
-
-            return true;
+        JsonObject JSON_response = (JsonObject) new JsonParser().parse(response);
+        if(JSON_response.get("error") != null) {
+            String errorResponse = JSON_response.get("error").toString();
+            return false;
+        } else if(JSON_response.get("authenticated") != null) {
+            String authenticationResponse = JSON_response.get("authenticated").toString();
+            if(authenticationResponse == "true") {
+                return true;
+            } else {
+                return false;
+            }
         }
         return false;
-        //AsyncConnection.secureRESTCall("")
+    }
+    public void logout() {
+        sharedEditor.editClear();
     }
 
     public void setSharedPreferences(SharedPreferencesEditor spe) {

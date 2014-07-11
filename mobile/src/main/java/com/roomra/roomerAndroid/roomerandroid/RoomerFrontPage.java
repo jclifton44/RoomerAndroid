@@ -40,6 +40,8 @@ public class RoomerFrontPage extends Activity
   public LocationService ls;
   public UserNode un;
   public Toast toast;
+  public SharedPreferencesEditor spe;
+  public AuthenticationService au;
   String[] values = { "Android", "iPhone", "WindowsMobile", "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2", "Android", "iPhone", "WindowsMobile" };
 
   public void addMessage(MessageProxy paramMessage)
@@ -76,6 +78,8 @@ public class RoomerFrontPage extends Activity
     int i = getWindowManager().getDefaultDisplay().getWidth();
     int j = getWindowManager().getDefaultDisplay().getHeight();
     setContentView(R.layout.front_page_roomer);
+    spe = new SharedPreferencesEditor(getApplicationContext(), "UserFile");
+    au = new AuthenticationService(spe);
     HorizontalScrollView localHorizontalScrollView = (HorizontalScrollView)findViewById(R.id.hzsv);
     new HomeFeatureLayout(getApplicationContext(), 3, i, localHorizontalScrollView);
     LinearLayout localLinearLayout1 = (LinearLayout)findViewById(R.id.MainNode);
@@ -142,8 +146,11 @@ public class RoomerFrontPage extends Activity
         {
           public void onClick(View paramAnonymousView)
           {
-            Intent localIntent = new Intent(RoomerFrontPage.this, SettingsActivity.class);
-            RoomerFrontPage.this.startActivity(localIntent);
+            //Intent localIntent = new Intent(RoomerFrontPage.this, SettingsActivity.class);
+            //RoomerFrontPage.this.startActivity(localIntent);
+              au.logout();
+              startActivity(new Intent(RoomerFrontPage.this, RoomerHome.class));
+              finish();
           }
         };
         localImageView3.setOnClickListener(local4);
