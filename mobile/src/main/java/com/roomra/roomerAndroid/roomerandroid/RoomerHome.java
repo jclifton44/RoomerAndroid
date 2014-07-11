@@ -35,32 +35,32 @@ public class RoomerHome extends Activity
     static String class_username;
     static SharedPreferencesEditor spe;
     public static LocationService locService;
+    public AuthenticationService au;
 
     public void attemptLogin()
     {
         Log.d("RoomerHome", "Attempting Login");
         //DefaultHttpClient localDefaultHttpClient = new DefaultHttpClient();
-        //AuthenticationService homeAuthenticationService = new AuthenticationService(spe, "clifton", "anyanton");
+        AuthenticationService home = new AuthenticationService(spe);
+        if(home.isAuth) {
+            Log.d("Starting second Ac", "Yep1");
+            Intent localIntent = new Intent(RoomerHome.this, RoomerFrontPage.class);
+            localIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            Log.d("Starting second Ac", "Yep2");
+            startActivity(localIntent);
+        }
         Log.d("loging", "logggg");
     }
 
     protected void onCreate(Bundle paramBundle)
     {
+        Log.d("ANDROI S:DLKFJS:LKDFJS:LDKJF", "S:DLKFJS:LKDFJS");
         super.onCreate(paramBundle);
         thisActivity = this;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         SharedPreferencesEditor localSharedPreferencesEditor = new SharedPreferencesEditor(getApplicationContext(), "UserFile");
         spe = localSharedPreferencesEditor;
-        class_username = localSharedPreferencesEditor.getUserName();
-        class_sha1 = localSharedPreferencesEditor.getSha1();
-        Log.d("logging_NEW", "Credendials");
-        locService = new LocationService(getApplicationContext(), false);
-        if ((class_username != null) && (class_sha1 != null))
-        {
-            Log.d(class_username, class_sha1);
-            attemptLogin();
-        }
         attemptLogin();
 
         rh = this;

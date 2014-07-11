@@ -30,7 +30,7 @@ public class SharedPreferencesEditor
 
     public void editClear()
     {
-        this.ed.clear();
+        this.ed.clear(); commitChanges();
     }
 
     public Editor getEditor()

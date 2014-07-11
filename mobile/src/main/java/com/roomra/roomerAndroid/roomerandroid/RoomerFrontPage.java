@@ -69,7 +69,7 @@ public class RoomerFrontPage extends Activity
     super.onCreate(paramBundle);
     getActionBar().hide();
     this.ls = RoomerHome.locService;
-    this.ls.requestSingleUpdate();
+    //this.ls.requestSingleUpdate();
     this.un = new UserNode(getApplicationContext(), this.ls);
     //getWindow().addFlags(2048);
     //getWindow().clearFlags(1024);
@@ -78,7 +78,7 @@ public class RoomerFrontPage extends Activity
     int i = getWindowManager().getDefaultDisplay().getWidth();
     int j = getWindowManager().getDefaultDisplay().getHeight();
     setContentView(R.layout.front_page_roomer);
-    spe = new SharedPreferencesEditor(getApplicationContext(), "UserFile");
+    spe = new SharedPreferencesEditor(getApplicationContext(), RoomerConstants.PREFS_FILE);
     au = new AuthenticationService(spe);
     HorizontalScrollView localHorizontalScrollView = (HorizontalScrollView)findViewById(R.id.hzsv);
     new HomeFeatureLayout(getApplicationContext(), 3, i, localHorizontalScrollView);

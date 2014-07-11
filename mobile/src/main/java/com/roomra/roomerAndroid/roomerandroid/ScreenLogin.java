@@ -17,7 +17,7 @@ import android.view.WindowManager;
 public class ScreenLogin extends Activity
 {
     static boolean requestReady = true;
-    public static final String PREFS_LOGIN = "UserFile";
+
     static EditText email;
     private static ScreenLogin loginActivity;
     static EditText sha1;
@@ -41,7 +41,7 @@ public class ScreenLogin extends Activity
         getActionBar().hide();
         Log.d("Logging", "logw");
         Log.d("Logging", "lowwg");
-        spe = new SharedPreferencesEditor(getApplicationContext(), "roomra");
+        spe = new SharedPreferencesEditor(getApplicationContext(), RoomerConstants.PREFS_FILE);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         this.mUserName = getIntent().getStringExtra("com.example.android.authenticatordemo.extra.EMAIL");
         Log.d("Logging", "lsog");
@@ -127,12 +127,7 @@ public class ScreenLogin extends Activity
                     Log.d("Starting second Ac", "Yep2");
                     screenLogin.startActivity(localIntent);
                     Log.d("Starting second Ac", "Yep3");
-                    SharedPreferencesEditor localSharedPreferencesEditor = new SharedPreferencesEditor(getApplicationContext().getApplicationContext(), "MyPrefsFile");
-                    localSharedPreferencesEditor.editClear();
-                    //localSharedPreferencesEditor.putUserName(this.mUserName);
-                    //localSharedPreferencesEditor.putSha1(HashSha1.SHA1(this.mPassword));
-                    //localSharedPreferencesEditor.putHandle(((JsonObject)new JsonParser().parse(str)).get("handle").toString());
-                    localSharedPreferencesEditor.commitChanges();
+
                     finish();
                 }
             return;

@@ -52,9 +52,11 @@ public class AsyncConnection extends AsyncTask<Task, Integer, String> {
         //Call Progress update to do updates and interface w/ UI
         int i = 0;
         StringBuilder sb = new StringBuilder();
-        sb.append("{[");
+        sb.append("{taskGroup: [");
         for (i=0; i < tasks.length; i++){
+            sb.append("{taskType:" + ((Task)tasks[i]).getTaskType() + ", taskResult: ");
             sb.append(tasks[i].performTask());
+            sb.append("}");
             if((i + 1) < tasks.length) {
                 sb.append(", ");
             }
@@ -66,7 +68,7 @@ public class AsyncConnection extends AsyncTask<Task, Integer, String> {
     }
     @Override
     protected void onPostExecute(String result) {
-
+        Log.d("RESULT OF TASKS", result);
     }
     public static String secureRESTCall(String path, List<BasicNameValuePair> postVars) {
            String finalResponse = "";

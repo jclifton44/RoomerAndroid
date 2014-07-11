@@ -34,13 +34,33 @@ public class AuthenticationService {
     private String clientId = null;
     public Boolean isAuth = false;
     public static String requestUrl = null;
-    AuthenticationService(SharedPreferencesEditor spe) {
-        this.sharedEditor = spe;
-        this.isAuth = isAuthenticated();
+    public void logShared() {
+        Log.i("LOGGING", "AUTH " + sharedEditor.getAuthToken());
+        Log.i("LOGGING", "REF " + sharedEditor.getRefreshToken());
+        Log.i("LOGGING", "CLIENT " + sharedEditor.getClientId());
+        Log.i("LOGGING", "AUTH " + sharedEditor.getAuthToken());
+        Log.i("LOGGING", "AUTH " + sharedEditor.getAuthToken());
 
     }
-    AuthenticationService(SharedPreferencesEditor spe, String un, String password) {
+    AuthenticationService(SharedPreferencesEditor spe) {
+        Log.i("LOGGING", "CONSTRUCTION_SIMPLE");
+        Log.d("Testing Huge Task Build", "building...");
+        Task t = Task[50];
+
         this.sharedEditor = spe;
+        logShared();
+        this.isAuth = isAuthenticated();
+        if(!this.isAuth) {
+            sharedEditor.editClear();
+            logShared();
+
+        }
+    }
+    AuthenticationService(SharedPreferencesEditor spe, String un, String password) {
+        Log.i("LOGGING", "CONSTRUCTION_COMPLEX");
+        this.sharedEditor = spe;
+        logShared();
+
         try{
             Log.d("creating SPE", "SPE");
             Log.d(spe.getAuthToken().length() + "", "THE AUTH TOKEN");
@@ -83,16 +103,18 @@ public class AuthenticationService {
                         Log.d("WOW", "MAKING CLIENT");
                         ArrayList<BasicNameValuePair> pv = new ArrayList(3);
                         pv.add(new BasicNameValuePair("accessToken", spe.getAuthToken()));
-                        String response = AsyncConnection.secureRESTCall("db/user/getClient", pv);
-                        String error = ((JsonObject)new JsonParser().parse(response)).get("error").toString();
-                        if(error == null || error == "") {
+
+                        String response = AsyncConnection.secureRESTCall("db/user/getClient/", pv);
+                        Log.d(response, "RESPONSPSONPOSNS");
+                        JsonObject JSONClientCreate = (JsonObject)new JsonParser().parse(response);
+                        if(JSONClientCreate.get("error") != null) {
                             //Create a client
                             pv = new ArrayList(4);
                             pv.add(new BasicNameValuePair("clientType", "public"));
                             pv.add(new BasicNameValuePair("clientType", "native"));
                             pv.add(new BasicNameValuePair("clientType", "https://roomra.com/frontPage"));
                             pv.add(new BasicNameValuePair("accessToken", spe.getAuthToken()));
-                            String clientResponse = AsyncConnection.secureRESTCall("oauth2/client-registration", pv);
+                            String clientResponse = AsyncConnection.secureRESTCall("oauth2/client-registration/", pv);
                             String clientErrorResults = ((JsonObject) new JsonParser().parse(clientResponse)).get("error").toString();
                             String clientIdResults = ((JsonObject) new JsonParser().parse(clientResponse)).get("clientId").toString();
                             if(clientErrorResults == "" || clientErrorResults == null) {
@@ -138,13 +160,14 @@ public class AuthenticationService {
                     Log.d("AUTHENTICATED", accessTokenResponse);
                     spe.putAuthToken(accessTokenResponse);
                     spe.putRefreshToken(refreshTokenResponse);
-                    spe.putExpiry(new Long(Integer.parseInt(JSONOwnerResponse.get("expires").toString())));
+                    spe.putExpiry(new Long(Integer.parseInt(JSONOwnerResponse.get("expiresIn").toString()) * 1000));
                     spe.putCreationTime(new Long(System.currentTimeMillis()));
                     this.isAuth = true;
                 }
                 ArrayList<BasicNameValuePair> clientPv = new ArrayList(3);
                 clientPv.add(new BasicNameValuePair("accessToken", spe.getAuthToken()));
                 String response = AsyncConnection.secureRESTCall("db/user/getClient", pv);
+                Log.d(response," RESPONSPNSONPSONSPONSPONSPONSPONSPON");
                 JSONOwnerResponse = (JsonObject) new JsonParser().parse(response);
                 if (JSONOwnerResponse.get("error") != null) {
                     clientPv = new ArrayList(4);
@@ -182,7 +205,8 @@ public class AuthenticationService {
     }
 
     public boolean isAuthenticated() {
-
+        Log.i("LOGGING", "IS_AUTH");
+logShared();
         String authToken = this.sharedEditor.getAuthToken();
         Log.d("AUTHENTICATING...", authToken);
         ArrayList<BasicNameValuePair> nvp = new ArrayList<BasicNameValuePair>();
@@ -191,6 +215,7 @@ public class AuthenticationService {
         Log.d("IS AUTHENTICATED", response);
         JsonObject JSON_response = (JsonObject) new JsonParser().parse(response);
         if(JSON_response.get("error") != null) {
+            Log.d("AUTHENTICATION","NOT_AUTHENTICATED" );
             String errorResponse = JSON_response.get("error").toString();
             return false;
         } else if(JSON_response.get("authenticated") != null) {

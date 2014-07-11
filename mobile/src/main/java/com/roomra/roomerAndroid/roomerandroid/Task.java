@@ -14,6 +14,9 @@ public class Task {
         this.path = path;
         this.postVars = postVars;
     }
+    public TaskType getTaskType() {
+        return this.tt;
+    }
     public String performTask(){
        switch (this.tt) {
            case DB:
