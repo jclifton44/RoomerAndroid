@@ -42,6 +42,8 @@ public class RoomerHome extends Activity
         Log.d("RoomerHome", "Attempting Login");
         //DefaultHttpClient localDefaultHttpClient = new DefaultHttpClient();
         AuthenticationService home = new AuthenticationService(spe);
+        RoomerDeveloper rnd = new RoomerDeveloper();
+        rnd.testTaskBuilder();
         if(home.isAuth) {
             Log.d("Starting second Ac", "Yep1");
             Intent localIntent = new Intent(RoomerHome.this, RoomerFrontPage.class);

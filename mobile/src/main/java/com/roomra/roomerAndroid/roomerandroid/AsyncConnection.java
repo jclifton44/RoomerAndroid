@@ -15,7 +15,8 @@ import java.net.HttpURLConnection;
 import java.io.PrintWriter;
 import org.apache.http.NameValuePair;
 
-
+import com.google.common.collect.Multimap;
+import com.google.common.collect.ArrayListMultimap;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -25,7 +26,7 @@ import org.apache.http.util.EntityUtils;
 /**
  * Created by jeremyclifton on 7/9/14.
  */
-public class AsyncConnection extends AsyncTask<Task, Integer, String> {
+public class AsyncConnection extends AsyncTask<Task, Integer, ArrayList<NameValuePair>> {
     private boolean isAsync;
     private Task[] ats;
     public AsyncConnection(boolean isAsync, Task... ats) {
@@ -36,10 +37,9 @@ public class AsyncConnection extends AsyncTask<Task, Integer, String> {
     public String connect() {
         if(isAsync) {
             this.execute(ats);
-            return "";
-        } else {
-            return doInBackground(ats);
+            return "FINISHED";
         }
+        return "NOT ASYNC";
 
     }
     @Override
@@ -48,14 +48,17 @@ public class AsyncConnection extends AsyncTask<Task, Integer, String> {
     }
 
     @Override
-    protected String doInBackground(Task... tasks) {
+    protected ArrayList<NameValuePair> doInBackground(Task... tasks) {
         //Call Progress update to do updates and interface w/ UI
         int i = 0;
+        ArrayList<NameValuePair> al = new ArrayList<NameValuePair>();
         StringBuilder sb = new StringBuilder();
-        sb.append("{taskGroup: [");
+        sb.append("{'taskGroup': [");
         for (i=0; i < tasks.length; i++){
-            sb.append("{taskType:" + ((Task)tasks[i]).getTaskType() + ", taskResult: ");
-            sb.append(tasks[i].performTask());
+            String taskResult = tasks[i].performTask();
+            sb.append("{'taskType':" + ((Task)tasks[i]).getTaskType() + ", 'taskResult': ");
+            sb.append(taskResult);
+            //al.add(new BasicNameValuePair((((Task)tasks[i]).getTaskType()).value, taskResult);
             sb.append("}");
             if((i + 1) < tasks.length) {
                 sb.append(", ");
@@ -64,16 +67,18 @@ public class AsyncConnection extends AsyncTask<Task, Integer, String> {
         sb.append("]}");
         String retval = sb.toString();
         Log.d("Creating JSON of task group...", retval);
-        return retval;
+        return al;
     }
     @Override
-    protected void onPostExecute(String result) {
-        Log.d("RESULT OF TASKS", result);
+    protected void onPostExecute(ArrayList result) {
+        for(int i = 0; i < result.size(); i++){
+           // Multimap mm = result.get(1)
+           // Task.postExecute()
+        }
     }
     public static String secureRESTCall(String path, List<BasicNameValuePair> postVars) {
            String finalResponse = "";
         try {
-            StringBuilder qString = new StringBuilder();
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost(RoomerConstants.ROOMRA_URL + path);
             httppost.setEntity(new UrlEncodedFormEntity(postVars));

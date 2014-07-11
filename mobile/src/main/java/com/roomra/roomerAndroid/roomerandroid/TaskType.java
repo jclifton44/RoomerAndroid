@@ -5,6 +5,8 @@ package com.roomra.roomerAndroid.roomerandroid;
  */
 public enum TaskType {
     DB,
+    GETCLIENT,
+
     GEOLOCATE,
     AGGREGATE
 }

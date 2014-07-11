@@ -25,7 +25,7 @@ public class Task {
                return "";
            case AGGREGATE:
                return "";
-
+           case GETCLIENT:
            default:
                return "";
        }

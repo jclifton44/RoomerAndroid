@@ -45,7 +45,7 @@ public class AuthenticationService {
     AuthenticationService(SharedPreferencesEditor spe) {
         Log.i("LOGGING", "CONSTRUCTION_SIMPLE");
         Log.d("Testing Huge Task Build", "building...");
-        Task t = Task[50];
+        Task[] t = new Task[1000];
 
         this.sharedEditor = spe;
         logShared();

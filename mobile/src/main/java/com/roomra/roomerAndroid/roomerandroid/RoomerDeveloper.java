@@ -19,7 +19,7 @@ public class RoomerDeveloper {
         pvs.add(new BasicNameValuePair("userId", "clifton"));
         pvs.add(new BasicNameValuePair("password", "anyanton"));
         for(i=0;i<400;i++) {
-            t[i] = new Task(TaskType.DB, "oauth2/authenticate", pvs);
+            t[i] = new Task(TaskType.DB, "oauth2/authenticate?reqId="+(new Integer(i)).toString(), pvs);
         }
         AsyncConnection ac = new AsyncConnection(true, t);
         ac.connect();
