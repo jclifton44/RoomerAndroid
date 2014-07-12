@@ -41,7 +41,7 @@ public class ScreenLogin extends Activity
         getActionBar().hide();
         Log.d("Logging", "logw");
         Log.d("Logging", "lowwg");
-        spe = new SharedPreferencesEditor(getApplicationContext(), RoomerConstants.PREFS_FILE);
+        this.spe = new SharedPreferencesEditor(getApplicationContext(), RoomerConstants.PREFS_FILE);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         this.mUserName = getIntent().getStringExtra("com.example.android.authenticatordemo.extra.EMAIL");
         Log.d("Logging", "lsog");
@@ -118,16 +118,18 @@ public class ScreenLogin extends Activity
             requestReady = false;
         }
         if(requestReady) {
+            Log.d("Starting second Ac", "Yep1");
+
+
             AuthenticationService au =  new AuthenticationService(screenLogin.spe, screenLogin.mUserName, screenLogin.mPassword);
             //AuthenticationService au = new AuthenticationService(screenLogin.spe);
-                if(au.isAuth) {
+                if(au.accessGranted()) {
                     Log.d("Starting second Ac", "Yep1");
                     Intent localIntent = new Intent(screenLogin, RoomerFrontPage.class);
                     localIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     Log.d("Starting second Ac", "Yep2");
                     screenLogin.startActivity(localIntent);
                     Log.d("Starting second Ac", "Yep3");
-
                     finish();
                 }
             return;

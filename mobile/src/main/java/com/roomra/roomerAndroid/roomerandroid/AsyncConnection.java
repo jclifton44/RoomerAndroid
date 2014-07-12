@@ -34,13 +34,12 @@ public class AsyncConnection extends AsyncTask<Task, Integer, ArrayList<NameValu
         this.ats = ats;
     }
 
-    public String connect() {
+    public void connect() {
         if(isAsync) {
             this.execute(ats);
-            return "FINISHED";
+        } else {
+            onPostExecute(doInBackground(ats));
         }
-        return "NOT ASYNC";
-
     }
     @Override
     protected void onProgressUpdate(Integer... progress) {
@@ -78,7 +77,9 @@ public class AsyncConnection extends AsyncTask<Task, Integer, ArrayList<NameValu
         }
     }
     public static String secureRESTCall(String path, List<BasicNameValuePair> postVars) {
-           String finalResponse = "";
+        Log.d("REST", "MAKING SECURE CONNECTION...");
+
+        String finalResponse = "";
         try {
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost(RoomerConstants.ROOMRA_URL + path);

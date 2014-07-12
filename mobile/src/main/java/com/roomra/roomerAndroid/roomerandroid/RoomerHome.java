@@ -41,10 +41,10 @@ public class RoomerHome extends Activity
     {
         Log.d("RoomerHome", "Attempting Login");
         //DefaultHttpClient localDefaultHttpClient = new DefaultHttpClient();
-        AuthenticationService home = new AuthenticationService(spe);
-        RoomerDeveloper rnd = new RoomerDeveloper();
-        rnd.testTaskBuilder();
-        if(home.isAuth) {
+        AuthenticationService home = new AuthenticationService(spe, null, null);
+        //RoomerDeveloper rnd = new RoomerDeveloper();
+        //rnd.testTaskBuilder();
+        if(home.accessGranted()) {
             Log.d("Starting second Ac", "Yep1");
             Intent localIntent = new Intent(RoomerHome.this, RoomerFrontPage.class);
             localIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

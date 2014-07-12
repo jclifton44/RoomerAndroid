@@ -39,8 +39,11 @@ public class Task {
        }
     }
     public static void postExecute(String type, String result){
+        Log.d("POST HANDLE", type);
+        Log.d("POST RESULT", result);
+
         TaskType resultTaskType = TaskType.valueOf(type);
-        if(((JsonObject)new JsonParser().parse(result)).get("error") != null) {
+        if(((JsonObject)new JsonParser().parse(result)).get("error") == null) {
             switch (resultTaskType) {
                 case REFRESHTOKENS:
                 case REOPEN:
@@ -49,16 +52,22 @@ public class Task {
                     spe.putRefreshToken(((JsonObject)new JsonParser().parse(result)).get("refreshToken").toString());
                     spe.putExpiry(new Long(((JsonObject)new JsonParser().parse(result)).get("expiresIn").toString()));
                     spe.putCreationTime(System.currentTimeMillis());
+                    break;
                 case LOGOUT:
                     spe.editClear();
                     Log.d("GEOLOCATE", "NO RESULT");
+                    break;
                 case SIGNUP:
                     Log.d("AGGREGATE", "NO RESULT");
+                    break;
                 case REGISTERCLIENT:
+                    break;
                 case UPDATECLIENT:
                     spe.putClientId(((JsonObject)new JsonParser().parse(result)).get("clientId").toString());
                     Log.d("GETCLIENT", "NO RESULT");
+                    break;
                 case CHECKTOKEN:
+                    break;
 
                 default:
                     Log.d("DEFAULT", "NO RESULT");

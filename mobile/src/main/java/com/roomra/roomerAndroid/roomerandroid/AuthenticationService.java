@@ -35,11 +35,22 @@ public class AuthenticationService {
     public Boolean isAuth = false;
     public static String requestUrl = null;
     public void logShared() {
-        Log.i("LOGGING", "AUTH " + sharedEditor.getAuthToken());
-        Log.i("LOGGING", "REF " + sharedEditor.getRefreshToken());
-        Log.i("LOGGING", "CLIENT " + sharedEditor.getClientId());
-        Log.i("LOGGING", "AUTH " + sharedEditor.getAuthToken());
-        Log.i("LOGGING", "AUTH " + sharedEditor.getAuthToken());
+        if(sharedEditor.getAuthToken() != null) {
+            Log.i("LOGGING", "AUTH " + sharedEditor.getAuthToken());
+        }
+        if(sharedEditor.getRefreshToken() != null) {
+            Log.i("LOGGING", "REF " + sharedEditor.getRefreshToken());
+        }
+        if(sharedEditor.getClientId() != null) {
+            Log.i("LOGGING", "CLIENT " + sharedEditor.getClientId());
+        }
+        if(sharedEditor.getAuthToken() != null) {
+            Log.i("LOGGING", "AUTH " + sharedEditor.getAuthToken());
+        }
+        if(sharedEditor.getAuthToken() != null) {
+            Log.i("LOGGING", "AUTH " + sharedEditor.getAuthToken());
+        }
+
     }
     AuthenticationService(SharedPreferencesEditor spe) {
         Log.i("LOGGING", "CONSTRUCTION_SIMPLE");
@@ -56,23 +67,27 @@ public class AuthenticationService {
     AuthenticationService(SharedPreferencesEditor spe, String un, String password) {
         Log.i("LOGGING", "CONSTRUCTION_COMPLEX");
         this.sharedEditor = spe;
-        logShared();
+        //logShared();
         ArrayList<BasicNameValuePair> pv = new ArrayList<BasicNameValuePair>();
         String path = "";
-        AsyncConnection ac;
+        AsyncConnection ac = new AsyncConnection(false, new Task(TaskType.NOP, path, pv));
         Task task;
+        Task.spe = spe;
         try{
 
             if(checkExpired()){
-                if(spe.getClientId() != "1KEY"){
+                if(spe.getClientId() != "false"){
                     Log.d("GETTING TOKEN", "CLIENT");
                     pv.clear();
                     pv.add(new BasicNameValuePair("clientId", spe.getClientId()));
                     task = new Task(TaskType.REOPEN, "oauth2/authenticate", pv);
-                    ac = new AsyncConnection(true, task);
+                    ac = new AsyncConnection(false, task);
                 }
             } else {
-                if(spe.getRefreshToken() != "1KEY") {
+                if(spe.getRefreshToken() != "false") {
+                    if(!this.clientRegistered()){
+                        downloadClientIdentifier();
+                    }
                     Log.d("GETTING TOKEN", "REFRESH");
                     pv.clear();
                     pv.add(new BasicNameValuePair("clientId", spe.getClientId()));
@@ -85,14 +100,17 @@ public class AuthenticationService {
                     pv.add(new BasicNameValuePair("userId", un));
                     pv.add(new BasicNameValuePair("password", password));
                     task = new Task(TaskType.SIGNON, "oauth2/authenticate", pv);
-                    ac = new AsyncConnection(true, task);
+                    ac = new AsyncConnection(false, task);
 
                 }
             }
+            ac.connect();
         } catch (Exception e) {
 
         } finally {
             //this.isAuth = isAuthenticated();
+            logShared();
+
         }
     }
     public boolean downloadClientIdentifier() {
@@ -102,6 +120,8 @@ public class AuthenticationService {
         if(!checkExpired()){
             pv.add(new BasicNameValuePair("accessToken", sharedEditor.getAuthToken()));
             task = new Task(TaskType.UPDATECLIENT, "db/user/getClient", pv);
+            ac = new AsyncConnection(false, task);
+            ac.connect();
             return true;
         }
         return false;
@@ -113,6 +133,8 @@ public class AuthenticationService {
         if(!checkExpired()){
             pv.add(new BasicNameValuePair("accessToken", sharedEditor.getAuthToken()));
             task = new Task(TaskType.REGISTERCLIENT, "oauth2/client-registration/", pv);
+            ac = new AsyncConnection(true, task);
+            ac.connect();
             return true;
         }
         return false;
@@ -130,7 +152,12 @@ public class AuthenticationService {
     public void logout() {
         sharedEditor.editClear();
     }
-
+    public boolean clientRegistered() {
+        return sharedEditor.getClientId() != "false";
+    }
+    public boolean accessGranted() {
+        return !this.checkExpired() && sharedEditor.getAuthToken() != "false";
+    }
     public void setSharedPreferences(SharedPreferencesEditor spe) {
         this.sharedEditor = spe;
     }

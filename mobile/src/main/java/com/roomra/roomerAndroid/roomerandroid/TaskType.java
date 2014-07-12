@@ -11,6 +11,7 @@ public enum TaskType {
     REFRESHTOKENS,
     REOPEN,
     REGISTERCLIENT,
-    CHECKTOKEN
+    CHECKTOKEN,
+    NOP
 
 }
