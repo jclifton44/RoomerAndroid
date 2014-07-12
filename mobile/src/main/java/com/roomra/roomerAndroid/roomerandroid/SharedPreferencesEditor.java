@@ -11,7 +11,7 @@ public class SharedPreferencesEditor
 {
     public Editor ed;
     public SharedPreferences pref;
-    public String preferenceName = "1KEY";
+    public String preferenceName = "false";
 
     /*
     Most of these are one liners. We can add a transformation layer as needed, though :)

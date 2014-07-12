@@ -25,12 +25,15 @@ public class Task {
     }
     public String performTask(){
        switch (this.tt) {
+           case REFRESHTOKENS:
+           case REOPEN:
            case SIGNON:
-               return AsyncConnection.secureRESTCall(path, postVars);
            case LOGOUT:
-               return "";
            case SIGNUP:
-               return "";
+           case REGISTERCLIENT:
+           case UPDATECLIENT:
+           case CHECKTOKEN:
+               return AsyncConnection.secureRESTCall(path, postVars);
            default:
                return "";
        }
@@ -55,6 +58,8 @@ public class Task {
                 case UPDATECLIENT:
                     spe.putClientId(((JsonObject)new JsonParser().parse(result)).get("clientId").toString());
                     Log.d("GETCLIENT", "NO RESULT");
+                case CHECKTOKEN:
+
                 default:
                     Log.d("DEFAULT", "NO RESULT");
             }
