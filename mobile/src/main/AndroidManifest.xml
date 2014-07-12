@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name='android.permission.WAKE_LOCK'/>
     <application android:theme="@style/Theme.AppCompat" android:label="@string/app_name" android:icon="@drawable/ic_launcher" android:allowBackup="true">
         <activity android:theme="@style/Theme.AppCompat" android:label="@string/app_name" android:name="com.roomra.roomerAndroid.roomerandroid.RoomerHome" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden|keyboard">
             <intent-filter>
@@ -24,5 +25,8 @@
         	android:name="android.support.PARENT_ACTIVITY" android:value="com.example.roomer_alt.RoomerHome" >    
         </meta-data></activity>
         <activity android:theme="@style/Theme.AppCompat" android:label="@string/title_activity_settings" android:name="com.roomra.roomerAndroid.roomerandroid.SettingsActivity" android:windowSoftInputMode="stateHidden|adjustResize" android:parentActivityName="com.roomra.roomerAndroid.roomerandroid.RoomerFrontPage" />
+        <receiver android:name='com.roomra.roomerAndroid.roomerandroid.TaskBroadcastReceiver'>
+        </receiver>
+
     </application>
 </manifest>
