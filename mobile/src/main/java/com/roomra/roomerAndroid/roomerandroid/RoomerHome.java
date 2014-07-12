@@ -56,6 +56,13 @@ public class RoomerHome extends Activity
 
     protected void onCreate(Bundle paramBundle)
     {
+        Log.d("Putting TASK IN1", "TASK");
+        ArrayList<BasicNameValuePair> pv = new ArrayList<BasicNameValuePair>();
+        pv.add(new BasicNameValuePair("wow", "damn"));
+        pv.add(new BasicNameValuePair("not","fortheserver"));
+
+
+
         Log.d("ANDROI S:DLKFJS:LKDFJS:LDKJF", "S:DLKFJS:LKDFJS");
         super.onCreate(paramBundle);
         thisActivity = this;

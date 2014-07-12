@@ -22,19 +22,16 @@ public class TaskBroadcastReceiver extends BroadcastReceiver {
 
         battery.release();    //Releasing Semaphore for sleep/wake
     }
-    public void setAlarm(Context context, String taskObject){
+    public void setAlarm(Context context, Task task, Long intervalTime, Boolean oneTime){
         AlarmManager alarm = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, TaskBroadcastReceiver.class);
-        intent.putExtra("", Boolean.FALSE);
-
+        intent.putExtra("task", task.serialize());
         PendingIntent pendingTask = PendingIntent.getBroadcast(context, 0, intent, 0);
-
-    }
-    public void cancelAlarm(Context context){
-
-    }
-    public void setOneTimeAlarm(Context context){
-
+        if(oneTime) {
+            alarm.set(AlarmManager.RTC_WAKEUP, RoomerConstants.START_TIME, pendingTask);
+        } else {
+            alarm.setRepeating(AlarmManager.RTC_WAKEUP, RoomerConstants.START_TIME, intervalTime, pendingTask);
+        }
     }
 
 }
