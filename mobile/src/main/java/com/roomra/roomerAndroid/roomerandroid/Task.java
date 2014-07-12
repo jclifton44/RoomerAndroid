@@ -1,8 +1,11 @@
 package com.roomra.roomerAndroid.roomerandroid;
 import org.apache.http.message.BasicNameValuePair;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import android.util.Log;
 import android.content.Context;
+import com.google.gson.Gson;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -15,6 +18,7 @@ public class Task {
     public ArrayList<BasicNameValuePair> postVars;
     public TaskType tt;
     public static SharedPreferencesEditor spe;
+    public static Gson gson = new Gson();
     public Task(TaskType tt, String path, ArrayList<BasicNameValuePair> postVars) {
         this.tt = tt;
         this.path = path;
@@ -49,8 +53,8 @@ public class Task {
                 case REOPEN:
                 case SIGNON:
                     spe.putAuthToken(((JsonObject)new JsonParser().parse(result)).get("accessToken").toString());
-                    spe.putRefreshToken(((JsonObject)new JsonParser().parse(result)).get("refreshToken").toString());
-                    spe.putExpiry(new Long(((JsonObject)new JsonParser().parse(result)).get("expiresIn").toString()));
+                    spe.putRefreshToken(((JsonObject) new JsonParser().parse(result)).get("refreshToken").toString());
+                    spe.putExpiry(new Long(((JsonObject) new JsonParser().parse(result)).get("expiresIn").toString()));
                     spe.putCreationTime(System.currentTimeMillis());
                     break;
                 case LOGOUT:
@@ -75,5 +79,27 @@ public class Task {
         } else {
             Log.d("ERROR: ", ((JsonObject)new JsonParser().parse(result)).get("error").toString());
         }
+    }
+    public String serialize() {
+        String stringgg = gson.toJson(this);
+        Log.d("SERALIZED", stringgg);
+        Log.d("SERALIZED", stringgg);
+
+        Log.d("SERALIZED", stringgg);
+        Log.d("SERALIZED", stringgg);
+        Log.d("SERALIZED", stringgg);
+        Log.d("SERALIZED", stringgg);
+        Log.d("SERALIZED", stringgg);
+
+
+
+
+
+        return gson.toJson(this);
+
+    }
+    public static Task deserialize(String s) {
+        Task task = gson.fromJson(s, Task.class);
+        return task;
     }
 }

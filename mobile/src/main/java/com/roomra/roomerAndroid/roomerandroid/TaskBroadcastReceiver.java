@@ -25,6 +25,8 @@ public class TaskBroadcastReceiver extends BroadcastReceiver {
     public void setAlarm(Context context, String taskObject){
         AlarmManager alarm = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, TaskBroadcastReceiver.class);
+        intent.putExtra("", Boolean.FALSE);
+
         PendingIntent pendingTask = PendingIntent.getBroadcast(context, 0, intent, 0);
 
     }
