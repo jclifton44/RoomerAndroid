@@ -61,6 +61,10 @@ public class RoomerHome extends Activity
         pv.add(new BasicNameValuePair("wow", "damn"));
         pv.add(new BasicNameValuePair("not","fortheserver"));
 
+        Task t = new Task(TaskType.UPDATECLIENT,"wowowow", pv);
+
+        TaskBroadcastReceiver tbr = new TaskBroadcastReceiver();
+        tbr.setAlarm(getApplicationContext(), t, 4000L, false);
 
 
         Log.d("ANDROI S:DLKFJS:LKDFJS:LDKJF", "S:DLKFJS:LKDFJS");

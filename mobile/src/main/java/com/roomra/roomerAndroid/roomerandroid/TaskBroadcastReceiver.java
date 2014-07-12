@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.util.Log;
+
 
 
 
@@ -19,7 +21,7 @@ public class TaskBroadcastReceiver extends BroadcastReceiver {
         battery.acquire();    //Acquiring Semaphore for sleep/wake
 
         //do shit
-
+        Log.d("doing this...", intent.getExtras().getString("task"));
         battery.release();    //Releasing Semaphore for sleep/wake
     }
     public void setAlarm(Context context, Task task, Long intervalTime, Boolean oneTime){
