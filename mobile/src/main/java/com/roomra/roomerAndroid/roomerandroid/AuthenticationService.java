@@ -80,7 +80,7 @@ public class AuthenticationService {
                     ArrayList<BasicNameValuePair> pv = new ArrayList(3);
                     pv.add(new BasicNameValuePair("refreshToken", spe.getRefreshToken()));
 
-                    AsyncConnection asyncConnection = new AsyncConnection(false, new Task(TaskType.DB, "login", pv));
+                    AsyncConnection asyncConnection = new AsyncConnection(false, new Task(TaskType.SIGNON, "login", pv));
                     String response = asyncConnection.connect();
                     Log.d("RESONSE", response);
                     pv.add(new BasicNameValuePair("refreshToken", spe.getRefreshToken()));

@@ -58,7 +58,7 @@ public class AsyncConnection extends AsyncTask<Task, Integer, ArrayList<NameValu
             String taskResult = tasks[i].performTask();
             sb.append("{'taskType':" + ((Task)tasks[i]).getTaskType() + ", 'taskResult': ");
             sb.append(taskResult);
-            //al.add(new BasicNameValuePair((((Task)tasks[i]).getTaskType()).value, taskResult);
+            al.add(new BasicNameValuePair((((Task)tasks[i]).getTaskType()).name(), taskResult));
             sb.append("}");
             if((i + 1) < tasks.length) {
                 sb.append(", ");
@@ -70,10 +70,11 @@ public class AsyncConnection extends AsyncTask<Task, Integer, ArrayList<NameValu
         return al;
     }
     @Override
-    protected void onPostExecute(ArrayList result) {
+    protected void onPostExecute(ArrayList<NameValuePair> result) {
         for(int i = 0; i < result.size(); i++){
            // Multimap mm = result.get(1)
-           // Task.postExecute()
+           Task.postExecute(result.get(i).getName(), result.get(i).getValue());
+           Log.d(result.get(i).getName(), result.get(i).getValue());
         }
     }
     public static String secureRESTCall(String path, List<BasicNameValuePair> postVars) {
