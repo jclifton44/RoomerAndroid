@@ -2,37 +2,13 @@ package com.roomra.roomerAndroid.roomerandroid;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.GestureDetector.SimpleOnGestureListener;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
-import android.widget.HorizontalScrollView;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-
-import java.io.InputStream;
-import java.net.URL;
-import java.util.List;
 import java.util.ArrayList;
-import javax.net.ssl.HttpsURLConnection;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.io.OutputStream;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import android.provider.Settings.Secure;
 
-
-import java.lang.Package;
-import java.util.HashMap;
-import java.io.StringWriter;
 public class AuthenticationService {
     private SharedPreferencesEditor sharedEditor;
-    private String accessToken = null;
-    private String refreshToken = null;
-    private String clientId = null;
-    public Boolean isAuth = false;
+    public Context context;
     public static String requestUrl = null;
     public void logShared() {
         if(sharedEditor.getAuthToken() != null) {
@@ -54,17 +30,16 @@ public class AuthenticationService {
     }
     AuthenticationService(SharedPreferencesEditor spe) {
         Log.i("LOGGING", "CONSTRUCTION_SIMPLE");
-        Log.d("Testing Huge Task Build", "building...");
 
         this.sharedEditor = spe;
         logShared();
-        if(!this.isAuth) {
+        if(false) {
             sharedEditor.editClear();
             logShared();
-
         }
     }
-    AuthenticationService(SharedPreferencesEditor spe, String un, String password) {
+    AuthenticationService(SharedPreferencesEditor spe, String un, String password, Context c) {
+        context = c;
         Log.i("LOGGING", "CONSTRUCTION_COMPLEX");
         this.sharedEditor = spe;
         //logShared();
@@ -84,24 +59,25 @@ public class AuthenticationService {
                     ac = new AsyncConnection(false, task);
                 }
             } else {
-                if(spe.getRefreshToken() != "false") {
-                    if(!this.clientRegistered()){
-                        downloadClientIdentifier();
-                    }
-                    Log.d("GETTING TOKEN", "REFRESH");
-                    pv.clear();
-                    pv.add(new BasicNameValuePair("clientId", spe.getClientId()));
-                    task = new Task(TaskType.REFRESHTOKENS, "oauth2/authenticate", pv);
-                    ac = new AsyncConnection(true, task);
-                    //update with refresh
-                } else if(un != null && password != null) {
+                if(un != null && password != null) {
                     Log.d("GETTING TOKEN", "OWNER");
                     pv.clear();
                     pv.add(new BasicNameValuePair("userId", un));
                     pv.add(new BasicNameValuePair("password", password));
                     task = new Task(TaskType.SIGNON, "oauth2/authenticate", pv);
                     ac = new AsyncConnection(false, task);
-
+                    if(!this.clientRegistered()) {
+                        Log.d("Regsitering Client with Owner", "567890987654345678909876543");
+                        //downloadUserInfo(1000L);
+                        downloadClientIdentifier(3000L);
+                    }
+                } else if(spe.getRefreshToken() != "false") {
+                    Log.d("GETTING TOKEN", "REFRESH");
+                    pv.clear();
+                    pv.add(new BasicNameValuePair("clientId", spe.getClientId()));
+                    task = new Task(TaskType.REFRESHTOKENS, "oauth2/authenticate", pv);
+                    ac = new AsyncConnection(true, task);
+                //update with refresh
                 }
             }
             ac.connect();
@@ -113,28 +89,47 @@ public class AuthenticationService {
 
         }
     }
-    public boolean downloadClientIdentifier() {
+    public boolean downloadClientIdentifier(Long schedule) {
         ArrayList<BasicNameValuePair> pv = new ArrayList<BasicNameValuePair>();
         AsyncConnection ac;
         Task task;
+        TaskBroadcastReceiver tbr = new TaskBroadcastReceiver();
         if(!checkExpired()){
-            pv.add(new BasicNameValuePair("accessToken", sharedEditor.getAuthToken()));
+            Log.d("ADDING", "CLIENT");
+            Log.d("ADDING", "CLIENT");
+            Log.d("ADDING", "CLIENT");
+            Log.d("ADDING", "CLIENT");
+            Log.d("ADDING", "CLIENT");
+            Log.d("ADDING", "CLIENT");
+
+
+
+
+
+            pv.add(new BasicNameValuePair("accessToken", RoomerConstants.UPDATE_ACCESS));
+            pv.add(new BasicNameValuePair("user", RoomerConstants.UPDATE_USERNAME));
             task = new Task(TaskType.UPDATECLIENT, "db/user/getClient", pv);
-            ac = new AsyncConnection(false, task);
-            ac.connect();
+            tbr.setAlarm(context, task, schedule, true);
+            pv.add(new BasicNameValuePair("redirectUri", Secure.getString(context.getContentResolver(), Secure.ANDROID_ID)));
+            pv.add(new BasicNameValuePair("type", "public"));
+            pv.add(new BasicNameValuePair("profile", "native"));
+            task = new Task(TaskType.REGISTERCLIENT, "oauth2/client-registration/", pv);
+            //if(sharedEditor.getClientId() == "false") {
+            //    tbr.setAlarm(context, task, 4000L, true);
+            //}
             return true;
         }
         return false;
     }
-    public boolean registerClientIdentifier() {
+    public boolean downloadUserInfo(Long schedule) {
         ArrayList<BasicNameValuePair> pv = new ArrayList<BasicNameValuePair>();
         AsyncConnection ac;
         Task task;
+        TaskBroadcastReceiver tbr = new TaskBroadcastReceiver();
         if(!checkExpired()){
-            pv.add(new BasicNameValuePair("accessToken", sharedEditor.getAuthToken()));
-            task = new Task(TaskType.REGISTERCLIENT, "oauth2/client-registration/", pv);
-            ac = new AsyncConnection(true, task);
-            ac.connect();
+            pv.add(new BasicNameValuePair("accessToken", RoomerConstants.UPDATE_ACCESS));
+            task = new Task(TaskType.GETUSERINFO, "db/getUser", pv);
+            tbr.setAlarm(context, task, schedule, true);
             return true;
         }
         return false;
@@ -142,7 +137,6 @@ public class AuthenticationService {
     public boolean checkExpired() {
         Long expiry = sharedEditor.getExpiry();
         Long creation = sharedEditor.getCreationTime();
-
         if(System.currentTimeMillis() < creation + expiry * 1000 || expiry == 0 || creation == 0) {
             return false;
         } else {

@@ -41,7 +41,7 @@ public class RoomerHome extends Activity
     {
         Log.d("RoomerHome", "Attempting Login");
         //DefaultHttpClient localDefaultHttpClient = new DefaultHttpClient();
-        AuthenticationService home = new AuthenticationService(spe, null, null);
+        AuthenticationService home = new AuthenticationService(spe, null, null, getApplicationContext());
         //RoomerDeveloper rnd = new RoomerDeveloper();
         //rnd.testTaskBuilder();
         if(home.accessGranted()) {
@@ -50,21 +50,14 @@ public class RoomerHome extends Activity
             localIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             Log.d("Starting second Ac", "Yep2");
             startActivity(localIntent);
+        } else {
+            home.logout();
         }
         Log.d("loging", "logggg");
     }
 
     protected void onCreate(Bundle paramBundle)
     {
-        Log.d("Putting TASK IN1", "TASK");
-        ArrayList<BasicNameValuePair> pv = new ArrayList<BasicNameValuePair>();
-        pv.add(new BasicNameValuePair("wow", "damn"));
-        pv.add(new BasicNameValuePair("not","fortheserver"));
-
-        Task t = new Task(TaskType.UPDATECLIENT,"wowowow", pv);
-
-        TaskBroadcastReceiver tbr = new TaskBroadcastReceiver();
-        tbr.setAlarm(getApplicationContext(), t, 4000L, false);
 
 
         Log.d("ANDROI S:DLKFJS:LKDFJS:LDKJF", "S:DLKFJS:LKDFJS");

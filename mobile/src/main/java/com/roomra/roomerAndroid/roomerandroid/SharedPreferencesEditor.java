@@ -38,6 +38,11 @@ public class SharedPreferencesEditor
         return this.pref.edit();
     }
 
+    public String getUserBlock()
+    {
+        return this.pref.getString("key_block", this.preferenceName);
+    }
+
     public String getHandle()
     {
         return this.pref.getString("key_handle", this.preferenceName);
@@ -65,6 +70,10 @@ public class SharedPreferencesEditor
 
     public Long getCreationTime() { return this.pref.getLong("key_time", 0);}
 
+    public void putUserBlock(String paramString) {
+        this.ed.putString("key_block", paramString);
+        this.ed.commit();
+    }
 
     public void putHandle(String paramString) {
         this.ed.putString("key_handle", paramString);

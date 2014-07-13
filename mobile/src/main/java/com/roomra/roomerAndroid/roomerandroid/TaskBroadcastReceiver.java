@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.util.Log;
+import android.os.SystemClock;
 
 
 
@@ -21,7 +22,11 @@ public class TaskBroadcastReceiver extends BroadcastReceiver {
         battery.acquire();    //Acquiring Semaphore for sleep/wake
 
         //do shit
-        Log.d("doing this...", intent.getExtras().getString("task"));
+        Task t = Task.deserialize(intent.getExtras().getString("task"));
+        t.reloadTaskData();
+        AsyncConnection ac = new AsyncConnection(true, t);
+        ac.connect();
+
         battery.release();    //Releasing Semaphore for sleep/wake
     }
     public void setAlarm(Context context, Task task, Long intervalTime, Boolean oneTime){
@@ -30,7 +35,7 @@ public class TaskBroadcastReceiver extends BroadcastReceiver {
         intent.putExtra("task", task.serialize());
         PendingIntent pendingTask = PendingIntent.getBroadcast(context, 0, intent, 0);
         if(oneTime) {
-            alarm.set(AlarmManager.RTC_WAKEUP, RoomerConstants.START_TIME, pendingTask);
+            alarm.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + RoomerConstants.START_TIME, pendingTask);
         } else {
             alarm.setRepeating(AlarmManager.RTC_WAKEUP, RoomerConstants.START_TIME, intervalTime, pendingTask);
         }

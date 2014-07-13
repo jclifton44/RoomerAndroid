@@ -28,19 +28,26 @@ public class Task {
         return this.tt;
     }
     public String performTask(){
+       String retval = "";
        switch (this.tt) {
            case REFRESHTOKENS:
            case REOPEN:
            case SIGNON:
            case LOGOUT:
            case SIGNUP:
-           case REGISTERCLIENT:
            case UPDATECLIENT:
            case CHECKTOKEN:
-               return AsyncConnection.secureRESTCall(path, postVars);
+           case GETUSERINFO:
+                retval = AsyncConnection.secureRESTCall(path, postVars);
+                break;
+           case REGISTERCLIENT:
+                if(spe.getClientId() == "false") {
+                    retval = AsyncConnection.secureRESTCall(path, postVars);
+                }
            default:
                return "";
        }
+           return retval;
     }
     public static void postExecute(String type, String result){
         Log.d("POST HANDLE", type);
@@ -52,9 +59,9 @@ public class Task {
                 case REFRESHTOKENS:
                 case REOPEN:
                 case SIGNON:
-                    spe.putAuthToken(((JsonObject)new JsonParser().parse(result)).get("accessToken").toString());
-                    spe.putRefreshToken(((JsonObject) new JsonParser().parse(result)).get("refreshToken").toString());
-                    spe.putExpiry(new Long(((JsonObject) new JsonParser().parse(result)).get("expiresIn").toString()));
+                    spe.putAuthToken(((JsonObject)new JsonParser().parse(result)).get("accessToken").getAsString());
+                    spe.putRefreshToken(((JsonObject) new JsonParser().parse(result)).get("refreshToken").getAsString());
+                    spe.putExpiry(new Long(((JsonObject) new JsonParser().parse(result)).get("expiresIn").getAsString()));
                     spe.putCreationTime(System.currentTimeMillis());
                     break;
                 case LOGOUT:
@@ -65,41 +72,46 @@ public class Task {
                     Log.d("AGGREGATE", "NO RESULT");
                     break;
                 case REGISTERCLIENT:
-                    break;
                 case UPDATECLIENT:
-                    spe.putClientId(((JsonObject)new JsonParser().parse(result)).get("clientId").toString());
-                    Log.d("GETCLIENT", "NO RESULT");
+                    spe.putClientId(((JsonObject)new JsonParser().parse(result)).get("clientId").getAsString());
+                    Log.d("GETCLIENT", "SAVING CLIENT");
                     break;
                 case CHECKTOKEN:
+                    break;
+                case GETUSERINFO:
+                    spe.putUserBlock(result);
+                    spe.putUserName(((JsonObject)new JsonParser().parse(result)).get("username").getAsString());
+                    Log.d("USER", "SAVING");
+
                     break;
 
                 default:
                     Log.d("DEFAULT", "NO RESULT");
             }
         } else {
-            Log.d("ERROR: ", ((JsonObject)new JsonParser().parse(result)).get("error").toString());
+            Log.d("ERROR: ", ((JsonObject)new JsonParser().parse(result)).get("error").getAsString());
         }
     }
+    public void reloadTaskData() {
+        int i = 0;
+        Log.d("RELOAD", "NAME");
+
+        for(i=0; i < postVars.size(); i++) {
+            if (postVars.get(i).getValue().equals(RoomerConstants.UPDATE_ACCESS)) {
+                postVars.set(i, new BasicNameValuePair(postVars.get(i).getName(), spe.getAuthToken()));
+            } else if (postVars.get(i).getValue().equals(RoomerConstants.UPDATE_REFRESH)) {
+                postVars.set(i, new BasicNameValuePair(postVars.get(i).getName(), spe.getRefreshToken()));
+            } else if (postVars.get(i).getValue().equals(RoomerConstants.UPDATE_USERNAME)) {
+                postVars.set(i, new BasicNameValuePair(postVars.get(i).getName(), spe.getUserName()));
+            }
+        }
+
+    }
     public String serialize() {
-        String stringgg = gson.toJson(this);
-        Log.d("SERALIZED", stringgg);
-        Log.d("SERALIZED", stringgg);
-
-        Log.d("SERALIZED", stringgg);
-        Log.d("SERALIZED", stringgg);
-        Log.d("SERALIZED", stringgg);
-        Log.d("SERALIZED", stringgg);
-        Log.d("SERALIZED", stringgg);
-
-
-
-
-
         return gson.toJson(this);
 
     }
     public static Task deserialize(String s) {
-        Task task = gson.fromJson(s, Task.class);
-        return task;
+        return gson.fromJson(s, Task.class);
     }
 }

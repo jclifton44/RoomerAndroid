@@ -121,7 +121,7 @@ public class ScreenLogin extends Activity
             Log.d("Starting second Ac", "Yep1");
 
 
-            AuthenticationService au =  new AuthenticationService(screenLogin.spe, screenLogin.mUserName, screenLogin.mPassword);
+            AuthenticationService au =  new AuthenticationService(screenLogin.spe, screenLogin.mUserName, screenLogin.mPassword, getApplicationContext());
             //AuthenticationService au = new AuthenticationService(screenLogin.spe);
                 if(au.accessGranted()) {
                     Log.d("Starting second Ac", "Yep1");

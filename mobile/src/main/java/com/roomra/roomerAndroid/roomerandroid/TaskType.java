@@ -12,6 +12,7 @@ public enum TaskType {
     REOPEN,
     REGISTERCLIENT,
     CHECKTOKEN,
+    GETUSERINFO,
     NOP
 
 }

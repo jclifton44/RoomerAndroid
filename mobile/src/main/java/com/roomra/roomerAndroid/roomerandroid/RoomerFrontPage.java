@@ -128,7 +128,8 @@ public class RoomerFrontPage extends Activity
           public void onClick(View paramAnonymousView)
           {
             String str = RoomerFrontPage.this.edt.getText().toString();
-            RoomerFrontPage.this.edt.setText("");
+            au.logout();
+            /*RoomerFrontPage.this.edt.setText("");
             if (str != null)
             {
               if (un == null)
@@ -137,8 +138,8 @@ public class RoomerFrontPage extends Activity
               MessageProxy localMessage = new MessageProxy(str, RoomerFrontPage.this.getApplicationContext(), RoomerFrontPage.this.un);
               localRoomerHome.addMessage(localMessage);
               refreshMessages();
-              localMessage.send();
-            }
+              localMessage.send();*/
+
           }
         };
         localImageView2.setOnClickListener(local3);
