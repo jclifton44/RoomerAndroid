@@ -32,6 +32,7 @@ public class AuthenticationService {
         Log.i("LOGGING", "CONSTRUCTION_SIMPLE");
 
         this.sharedEditor = spe;
+this.logout();
         logShared();
         if(false) {
             sharedEditor.editClear();
@@ -42,7 +43,7 @@ public class AuthenticationService {
         context = c;
         Log.i("LOGGING", "CONSTRUCTION_COMPLEX");
         this.sharedEditor = spe;
-        //logShared();
+        logShared();
         ArrayList<BasicNameValuePair> pv = new ArrayList<BasicNameValuePair>();
         String path = "";
         AsyncConnection ac = new AsyncConnection(false, new Task(TaskType.NOP, path, pv));
@@ -50,7 +51,18 @@ public class AuthenticationService {
         Task.spe = spe;
         try{
 
-            if(checkExpired()){
+            if(un != null && password != null) {
+                Log.d("GETTING TOKEN", "OWNER");
+                pv.clear();
+                pv.add(new BasicNameValuePair("userId", un));
+                pv.add(new BasicNameValuePair("password", password));
+                task = new Task(TaskType.SIGNON, "oauth2/authenticate", pv);
+                ac = new AsyncConnection(false, task);
+                if(!this.clientRegistered()) {
+                    Log.d("Regsitering Client with Owner", "567890987654345678909876543");
+                    //downloadUserInfo(1000L);
+                    downloadClientIdentifier(3000L);
+            } else if(checkExpired()){
                 if(spe.getClientId() != "false"){
                     Log.d("GETTING TOKEN", "CLIENT");
                     pv.clear();
@@ -58,20 +70,7 @@ public class AuthenticationService {
                     task = new Task(TaskType.REOPEN, "oauth2/authenticate", pv);
                     ac = new AsyncConnection(false, task);
                 }
-            } else {
-                if(un != null && password != null) {
-                    Log.d("GETTING TOKEN", "OWNER");
-                    pv.clear();
-                    pv.add(new BasicNameValuePair("userId", un));
-                    pv.add(new BasicNameValuePair("password", password));
-                    task = new Task(TaskType.SIGNON, "oauth2/authenticate", pv);
-                    ac = new AsyncConnection(false, task);
-                    if(!this.clientRegistered()) {
-                        Log.d("Regsitering Client with Owner", "567890987654345678909876543");
-                        //downloadUserInfo(1000L);
-                        downloadClientIdentifier(3000L);
-                    }
-                } else if(spe.getRefreshToken() != "false") {
+            } else if(spe.getRefreshToken() != "false") {
                     Log.d("GETTING TOKEN", "REFRESH");
                     pv.clear();
                     pv.add(new BasicNameValuePair("clientId", spe.getClientId()));
@@ -95,17 +94,6 @@ public class AuthenticationService {
         Task task;
         TaskBroadcastReceiver tbr = new TaskBroadcastReceiver();
         if(!checkExpired()){
-            Log.d("ADDING", "CLIENT");
-            Log.d("ADDING", "CLIENT");
-            Log.d("ADDING", "CLIENT");
-            Log.d("ADDING", "CLIENT");
-            Log.d("ADDING", "CLIENT");
-            Log.d("ADDING", "CLIENT");
-
-
-
-
-
             pv.add(new BasicNameValuePair("accessToken", RoomerConstants.UPDATE_ACCESS));
             pv.add(new BasicNameValuePair("user", RoomerConstants.UPDATE_USERNAME));
             task = new Task(TaskType.UPDATECLIENT, "db/user/getClient", pv);
@@ -137,6 +125,8 @@ public class AuthenticationService {
     public boolean checkExpired() {
         Long expiry = sharedEditor.getExpiry();
         Long creation = sharedEditor.getCreationTime();
+        Log.d("" + expiry, "" + creation);
+        Log.d("SYSTEMTIME", String.valueOf(System.currentTimeMillis()));
         if(System.currentTimeMillis() < creation + expiry * 1000 || expiry == 0 || creation == 0) {
             return false;
         } else {
@@ -144,6 +134,15 @@ public class AuthenticationService {
         }
     }
     public void logout() {
+        sharedEditor.putAuthorizationCode("false");
+        sharedEditor.putAuthToken("false");
+        sharedEditor.putClientId("false");
+        sharedEditor.putRefreshToken("false");
+        sharedEditor.putUserBlock("false");
+        sharedEditor.putUserName("false");
+        sharedEditor.putExpiry(0L);
+        sharedEditor.putCreationTime(0L);
+
         sharedEditor.editClear();
     }
     public boolean clientRegistered() {

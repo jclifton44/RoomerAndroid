@@ -41,7 +41,10 @@ public class RoomerHome extends Activity
     {
         Log.d("RoomerHome", "Attempting Login");
         //DefaultHttpClient localDefaultHttpClient = new DefaultHttpClient();
+        //AuthenticationService homeLogout = new AuthenticationService(spe);
+
         AuthenticationService home = new AuthenticationService(spe, null, null, getApplicationContext());
+
         //RoomerDeveloper rnd = new RoomerDeveloper();
         //rnd.testTaskBuilder();
         if(home.accessGranted()) {
@@ -65,14 +68,13 @@ public class RoomerHome extends Activity
         thisActivity = this;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        SharedPreferencesEditor localSharedPreferencesEditor = new SharedPreferencesEditor(getApplicationContext(), "UserFile");
+        SharedPreferencesEditor localSharedPreferencesEditor = new SharedPreferencesEditor(getApplicationContext(), RoomerConstants.PREFS_FILE);
         spe = localSharedPreferencesEditor;
-        attemptLogin();
 
         rh = this;
         setContentView(R.layout.activity_roomer_home);
         getActionBar().hide();
-
+        attemptLogin();
         TextView localTextView1 = (TextView)findViewById(R.id.textView1);
         TextView localTextView2 = (TextView)findViewById(R.id.textView2);
         Log.d("asdf", "asdf");

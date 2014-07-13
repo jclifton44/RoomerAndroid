@@ -21,13 +21,11 @@ public class Message
   private double longitude;
   private String message;
   private ArrayList<String> photoUrls;
-  private UserNode uNode;
   private String userProfileUrl;
 
-  public Message(String paramString, Context paramContext, UserNode paramUserNode)
+  public Message(String paramString, Context paramContext)
   {
     this.context = paramContext;
-    this.uNode = paramUserNode;
     setMessage(paramString);
   }
 
@@ -82,7 +80,6 @@ public class Message
       Log.d("inregister", "");
       SharedPreferencesEditor localSharedPreferencesEditor = new SharedPreferencesEditor(this.context, "MyPrefsFile");
       ArrayList localArrayList = new ArrayList(4);
-      UserNode.ls.requestSingleUpdate();
       localArrayList.add(new BasicNameValuePair("body", getMessage()));
       localArrayList.add(new BasicNameValuePair("title", localSharedPreferencesEditor.getHandle()));
       Log.d(""+LocationService.latitude, "LAT");

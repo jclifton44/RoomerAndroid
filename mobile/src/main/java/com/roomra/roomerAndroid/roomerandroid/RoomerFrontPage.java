@@ -38,7 +38,6 @@ public class RoomerFrontPage extends Activity
   private LinearLayout linearLayout;
   public ListView listv;
   public LocationService ls;
-  public UserNode un;
   public Toast toast;
   public SharedPreferencesEditor spe;
   public AuthenticationService au;
@@ -70,7 +69,7 @@ public class RoomerFrontPage extends Activity
     getActionBar().hide();
     this.ls = RoomerHome.locService;
     //this.ls.requestSingleUpdate();
-    this.un = new UserNode(getApplicationContext(), this.ls);
+//    this.un = new UserNode(getApplicationContext(), this.ls);
     //getWindow().addFlags(2048);
     //getWindow().clearFlags(1024);
     //getWindow().addFlags(1024);

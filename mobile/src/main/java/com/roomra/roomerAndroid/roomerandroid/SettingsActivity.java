@@ -87,14 +87,14 @@ public class SettingsActivity extends PreferenceActivity
     if (!isSimplePreferences(this))
       return;
    // addPreferencesFromResource(2130968577);
-    findPreference("button").setOnPreferenceClickListener(new OnPreferenceClickListener()
-    {
-      public boolean onPreferenceClick(Preference paramAnonymousPreference)
-      {
-        SettingsActivity.this.logout();
-        return false;
-      }
-    });
+//    findPreference("button").setOnPreferenceClickListener(new OnPreferenceClickListener()
+//    {
+//      public boolean onPreferenceClick(Preference paramAnonymousPreference)
+//      {
+//        SettingsActivity.this.logout();
+//        return false;
+//      }
+//    });
    // ((EditTextPreference)findPreference("handlePreferenceId"));
     new SharedPreferencesEditor(getApplicationContext(), "MyPrefsFile").getHandle();
     PreferenceCategory localPreferenceCategory = new PreferenceCategory(this);
@@ -126,7 +126,7 @@ public class SettingsActivity extends PreferenceActivity
   protected void onPostCreate(Bundle paramBundle)
   {
     super.onPostCreate(paramBundle);
-    setupSimplePreferencesScreen();
+//    setupSimplePreferencesScreen();
   }
 
   @TargetApi(11)
