@@ -22,6 +22,7 @@ public class RoomerFrontPage extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.front_page_roomer);
         actionBar = getActionBar();
+        actionBar.hide();
         // ViewPager and its adapters use support library
         // fragments, so use getSupportFragmentManager.
         mDemoCollectionPagerAdapter =

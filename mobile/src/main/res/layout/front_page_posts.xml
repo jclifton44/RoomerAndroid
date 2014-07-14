@@ -7,9 +7,67 @@
     android:background="@color/pastelRed">
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="50px"
+        android:background="@color/pastelRed"
+        android:id="@+id/tagBar"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/panetIcon"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/planets"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:background="@color/pastelWhite"
+        android:layout_below="@id/tagBar"
+        android:id="@+id/relativeLayout"
+        android:orientation="vertical" >
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="100px"
+                android:layout_height="wrap_content"
+                android:id="@+id/peopleIcon"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/people"/>
+            <ImageView
+                android:layout_width="100px"
+                android:layout_height="wrap_content"
+                android:id="@+id/fireIcon"
+                android:layout_toRightOf="@+id/peopleIcon"
+                android:src="@drawable/hot"/>
+            <ImageView
+                android:layout_width="100px"
+                android:layout_height="wrap_content"
+                android:id="@+id/timeIcon"
+                android:layout_toRightOf="@+id/fireIcon"
+                android:src="@drawable/timer"/>
+            <ImageView
+                android:layout_width="100px"
+                android:layout_height="wrap_content"
+                android:id="@+id/starredIcon"
+                android:layout_toRightOf="@+id/timeIcon"
+                android:src="@drawable/star"/>
+            <ImageView
+                android:layout_width="100px"
+                android:layout_height="wrap_content"
+                android:id="@+id/antIcon"
+                android:layout_toRightOf="@+id/starredIcon"
+                android:src="@drawable/antenna"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="150px"
         android:background="@color/pastelWhite"
         android:layout_alignParentBottom="true" >
     </RelativeLayout>
+
+
 
 </RelativeLayout>
