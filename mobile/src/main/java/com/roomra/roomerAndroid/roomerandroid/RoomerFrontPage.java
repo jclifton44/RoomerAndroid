@@ -4,7 +4,7 @@ import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-
+import android.support.v4.app.FragmentManager;
 
 
 
@@ -12,6 +12,7 @@ public class RoomerFrontPage extends FragmentActivity {
     // When requested, this adapter returns a DemoObjectFragment,
     // representing an object in the collection.
     RoomerFragmentAdapter mDemoCollectionPagerAdapter;
+    public static FragmentManager fragmentManager;
     ActionBar actionBar;
     ViewPager viewPager;
     private String[] tabs = { "Top Rated", "Games", "Movies", "Dev" };
@@ -25,6 +26,8 @@ public class RoomerFrontPage extends FragmentActivity {
         actionBar.hide();
         // ViewPager and its adapters use support library
         // fragments, so use getSupportFragmentManager.
+        fragmentManager = getSupportFragmentManager();
+
         mDemoCollectionPagerAdapter =
                 new RoomerFragmentAdapter(
                         getSupportFragmentManager());
