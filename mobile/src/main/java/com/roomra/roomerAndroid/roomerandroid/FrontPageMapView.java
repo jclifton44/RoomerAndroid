@@ -10,7 +10,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class FrontPageMapView extends Fragment {
     private static GoogleMap mMap;
@@ -47,10 +46,12 @@ public class FrontPageMapView extends Fragment {
     private static void setUpMap() {
         // For showing a move to my loction button
         mMap.setMyLocationEnabled(true);
+        LatLng sydney = new LatLng(-33.867, 151.206);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
         // For dropping a marker at a point on the Map
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0,0)).title("My Home").snippet("Home Address"));
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(30.0,30.0)).title("My Home").snippet("Home Address"));
         // For zooming automatically to the Dropped PIN Location
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(0,0), 12.0f));
+        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(30.0,30.0), 12.0f));
     }
 
     @Override
