@@ -3,5 +3,7 @@
     <color name="black_overlay">#66000000</color>
     <color name="pastelRed">#ffff7878</color>
     <color name="pastelWhite">#FDFDFD</color>
+    <color name="pastelWhiteOpaque">#DDFDFDFD</color>
+
 
 </resources>

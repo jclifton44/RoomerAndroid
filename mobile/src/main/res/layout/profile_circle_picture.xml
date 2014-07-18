@@ -1,0 +1,15 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="80dp"
+    android:layout_height="80dp">
+    <ImageView
+        android:id="@+id/profPic"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@color/pastelRed"
+        android:layout_marginLeft="20dp"
+        android:layout_margin="20dp"
+        android:src="@drawable/mr_seal_small">
+
+    </ImageView>
+
+</layer-list>

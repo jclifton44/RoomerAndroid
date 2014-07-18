@@ -15,10 +15,10 @@ public class RoomerFragmentAdapter extends FragmentStatePagerAdapter {
         switch (index) {
             case 0:
                 // Top Rated fragment activity
-                return new FrontPagePosts();
+                return new FrontPageMapView();
             case 1:
                 // Games fragment activity
-                return new FrontPageMapView();
+                return new FrontPagePosts();
             case 2:
                 // Movies fragment activity
                 return new FrontPagePosts();

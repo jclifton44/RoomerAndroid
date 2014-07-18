@@ -8,5 +8,99 @@
         android:id="@+id/mapview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"
+        android:background="@color/pastelWhiteOpaque"
+        android:layout_margin="20dp"
+        android:layout_alignParentBottom="true">
+        <ScrollView android:id="@+id/ScrollView" android:layout_width="fill_parent" android:layout_height="fill_parent" >
+            <LinearLayout
+                android:id="@+id/layoutForScroll"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/char1t"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="120dp">
+
+                    <ImageView
+                        android:id="@+id/profPic"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@color/pastelRed"
+                        android:layout_margin="20dp"
+                        android:src="@drawable/mr_seal_small">
+
+                        </ImageView>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_height="40dp"
+                            android:layout_width="match_parent"
+                            android:textSize="35dp"
+                            android:text="Sir Seal">
+                        </TextView>
+                        <RelativeLayout
+                            android:layout_height="40dp"
+                            android:layout_width="match_parent"
+                            android:orientation="vertical">
+                            <ImageView
+                                android:layout_width="100px"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/fireIcon"
+                                android:layout_alignParentLeft="true"
+                                android:src="@drawable/hot"/>
+                            <ImageView
+                                android:layout_width="100px"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/starredIcon"
+                                android:layout_toRightOf="@+id/fireIcon"
+                                android:src="@drawable/star"/>
+                            <ImageView
+                                android:layout_width="100px"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/sheildIcon"
+                                android:layout_toRightOf="@+id/starredIcon"
+                                android:src="@drawable/sheild"/>
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:id="@+id/chart2" android:orientation="horizontal"
+                    android:layout_width="fill_parent" android:layout_height="wrap_content"
+                     >
+                    <TextView
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:padding="10dp"
+                        android:textColor="#000000"
+                        android:textSize="16dp"
+                        android:text="A creative man is motivated by the desire to achieve, not by the desire to beat others.">
+                    </TextView>
+                    </LinearLayout>
+                <LinearLayout android:id="@+id/chart" android:orientation="vertical"
+                    android:layout_width="fill_parent" android:layout_height="wrap_content" >
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/mr_seal_small">
+                    </ImageView>
+                    </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+        </RelativeLayout>
+
+
 
 </RelativeLayout>
