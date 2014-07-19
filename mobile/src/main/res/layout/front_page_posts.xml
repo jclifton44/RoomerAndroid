@@ -5,9 +5,71 @@
     android:layout_height="match_parent"
     android:id="@+id/frontPagePost"
     android:background="@color/pastelRed">
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/input"
+        android:background="#F5A3A2"
+        android:layout_below="@+id/tabbedIcons">
+        <ScrollView android:id="@+id/ScrollView" android:layout_width="match_parent" android:layout_height="match_parent" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/post1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="120dp"
+                    android:background="#FFFFFF"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/post2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="120dp"
+                    android:background="#FFFFFF"
+                    android:layout_below="@id/post1"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/post3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="120dp"
+                    android:background="#FFFFFF"
+                    android:layout_below="@id/post2"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/post4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="120dp"
+                    android:background="#FFFFFF"
+                    android:layout_below="@id/post3"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50px"
+        android:layout_height="20dp"
         android:background="@color/pastelRed"
         android:id="@+id/tagBar"
         >
@@ -20,41 +82,42 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100px"
+        android:layout_height="40dp"
         android:background="@color/pastelWhite"
         android:layout_below="@id/tagBar"
-        android:id="@+id/relativeLayout"
+        android:id="@+id/tabbedIcons"
         android:orientation="vertical" >
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
+        android:id="@+id/filterTabs"
         android:layout_height="wrap_content">
             <ImageView
-                android:layout_width="100px"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/peopleIcon"
                 android:layout_alignParentLeft="true"
                 android:src="@drawable/people"/>
             <ImageView
-                android:layout_width="100px"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/fireIcon"
                 android:layout_toRightOf="@+id/peopleIcon"
                 android:src="@drawable/hot"/>
             <ImageView
-                android:layout_width="100px"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/timeIcon"
                 android:layout_toRightOf="@+id/fireIcon"
                 android:src="@drawable/timer"/>
             <ImageView
-                android:layout_width="100px"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/starredIcon"
                 android:layout_toRightOf="@+id/timeIcon"
                 android:src="@drawable/star"/>
             <ImageView
-                android:layout_width="100px"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/antIcon"
                 android:layout_toRightOf="@+id/starredIcon"
@@ -62,11 +125,13 @@
         </LinearLayout>
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/input"
         android:layout_width="match_parent"
-        android:layout_height="150px"
+        android:layout_height="60dp"
         android:background="@color/pastelWhite"
         android:layout_alignParentBottom="true" >
     </RelativeLayout>
+
 
 
 
