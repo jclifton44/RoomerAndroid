@@ -32,7 +32,7 @@
     </ImageView>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/post1"
+        android:id="@+id/post"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
@@ -51,7 +51,7 @@
             android:textSize="18sp"
             android:layout_marginRight="14dp"
 
-            android:id="@+id/textFrom"
+            android:id="@+id/author"
             android:text="@string/sample_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -70,7 +70,8 @@
             android:textSize="18sp"
             android:text="@string/sample_topic"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/topicText">
 
         </TextView>
 
@@ -78,6 +79,7 @@
     <TextView
         android:layout_marginLeft="14dp"
         android:textSize="16sp"
+        android:id="@+id/markText"
         android:text="@string/q1"
         android:layout_width="wrap_content"
         android:textColor="#000000"
@@ -85,4 +87,10 @@
 
     </TextView>
     </LinearLayout>
+    <ImageView
+        android:id="@+id/contentPhoto"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:src="@drawable/bobby"
+        android:layout_below="@id/post"></ImageView>
 </RelativeLayout>

@@ -39,8 +39,8 @@ public class ModularPostArrayAdapter extends ArrayAdapter<ModularPost>{
             holder.markText = (TextView) convertView.findViewById(R.id.markText);
             holder.author = (TextView) convertView.findViewById(R.id.author);
             holder.topicText = (TextView) convertView.findViewById(R.id.topicText);
-            holder.contentPhoto = (TextView) convertView.findViewById(R.id.contentPhoto);
-            holder.profilePhoto = (TextView) convertView.findViewById(R.id.profilePhoto);
+            holder.contentPhoto = (ImageView) convertView.findViewById(R.id.contentPhoto);
+            holder.profilePhoto = (ImageView) convertView.findViewById(R.id.profilePhoto);
 
             convertView.setTag(holder);
         } else
@@ -48,9 +48,9 @@ public class ModularPostArrayAdapter extends ArrayAdapter<ModularPost>{
 
         holder.author.setText(rowItem.getAuthor());
         holder.markText.setText(rowItem.getMarkText());
-        holder.topicText.setText(rowItem.getMarkText());
+        holder.topicText.setText(rowItem.getTopicText());
 
-        holder.contentPhoto.setImageResource(rowItem.getContentPhotoId());
+        //holder.contentPhoto.setImageResource(rowItem.getContentPhotoId());
         holder.profilePhoto.setImageResource(rowItem.getProfilePhotoId());
 
 

@@ -27,11 +27,10 @@ public class FrontPagePosts extends Fragment {
             posts.add(singlePost);
         }
 
-        ListView postView = (ListView) rootView.findViewById(R.id.postList);
-        ModularPostArrayAdapter adapter = new ModularPostArrayAdapter(this,
+        ListView postView = (ListView) rootView.findViewById(R.id.postLists);
+        ModularPostArrayAdapter adapter = new ModularPostArrayAdapter(this.getActivity(),
                 R.layout.list_item, posts);
         postView.setAdapter(adapter);
-        postView.setOnItemClickListener(this);
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
         return rootView;
     }
