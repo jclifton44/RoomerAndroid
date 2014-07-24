@@ -7,31 +7,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class FrontPagePosts extends Fragment {
+public class FrontPageProf extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
 
-        View rootView = inflater.inflate(R.layout.front_page_posts, container, false);
-        List<ModularPost> posts = new ArrayList<ModularPost>();
-        for (int i = 0; i < 15; i++) {
-            ModularPost singlePost = new ModularPost("Despite their infrequent occurence in common conversation, the Appalacian mountin range is the oldest mountain range in the world.", "This A. Name", "Mountains", R.drawable.bobby, R.drawable.mr_seal);
-            posts.add(singlePost);
-        }
-
-        ListView postView = (ListView) rootView.findViewById(R.id.postList);
-        ModularPostArrayAdapter adapter = new ModularPostArrayAdapter(this,
-                R.layout.list_item, posts);
-        postView.setAdapter(adapter);
-        postView.setOnItemClickListener(this);
+        View rootView = inflater.inflate(R.layout.front_page_prof, container, false);
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
         return rootView;
     }

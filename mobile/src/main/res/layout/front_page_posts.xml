@@ -13,78 +13,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/input"
-        android:background="#F5A3A2"
+        android:background="@color/lightPastelRed"
         android:layout_below="@+id/tabbedIcons">
         <ScrollView android:id="@+id/ScrollView" android:layout_width="match_parent" android:layout_height="match_parent" >
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ListView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:id="@+id/post1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="120dp"
-                    android:background="#FFFFFF"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp">
-                </RelativeLayout>
-                <RelativeLayout
-                    android:id="@+id/post2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="120dp"
-                    android:background="#FFFFFF"
-                    android:layout_below="@id/post1"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp">
-                </RelativeLayout>
-                <RelativeLayout
-                    android:id="@+id/post3"
-                    android:layout_width="fill_parent"
-                    android:layout_height="120dp"
-                    android:background="#FFFFFF"
-                    android:layout_below="@id/post2"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp">
-                </RelativeLayout>
-                <RelativeLayout
-                    android:id="@+id/post4"
-                    android:layout_width="fill_parent"
-                    android:layout_height="120dp"
-                    android:background="#FFFFFF"
-                    android:layout_below="@id/post3"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp">
-                </RelativeLayout>
-
-
-            </LinearLayout>
+                android:id="@+id/postLists">
+                </ListView>
 
 
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/pastelRed"
-        android:id="@+id/tagBar"
-        >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/panetIcon"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/planets"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/pastelWhite"
-        android:layout_below="@id/tagBar"
         android:id="@+id/tabbedIcons"
         android:orientation="vertical" >
     <LinearLayout
@@ -92,12 +36,7 @@
         android:layout_width="wrap_content"
         android:id="@+id/filterTabs"
         android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/peopleIcon"
-                android:layout_alignParentLeft="true"
-                android:src="@drawable/people"/>
+
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
@@ -116,12 +55,6 @@
                 android:id="@+id/starredIcon"
                 android:layout_toRightOf="@+id/timeIcon"
                 android:src="@drawable/star"/>
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/antIcon"
-                android:layout_toRightOf="@+id/starredIcon"
-                android:src="@drawable/antenna"/>
         </LinearLayout>
     </RelativeLayout>
     <RelativeLayout

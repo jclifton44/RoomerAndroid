@@ -31,5 +31,20 @@
     <string name="pref_title_ringtone">Ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="sample_name">Bobby Alexander</string>
+    <string name="sample_topic">Volcanos</string>
+    <string name="arrow"> > </string>
+    <string name="q1">Are there even active volcanos in the rocky mountains? I dont think there are. There are active volcanos in Greenland, though. There, and possibly in seattle. Did you know that the oldest moutains in the world are the Appalachian mountains?</string>
+    <string name="q2">Rockies are very new. They are active.</string>
+
+    <string name="q3">I love rocky road icecream</string>
+
+    <string name="q4"> They say you know when you\'ve hit rock bottom, but..</string>
+
+
+    Are there even active volcanos in the rocky mountains?
+
+
+
 
 </resources>
