@@ -34,12 +34,12 @@ public class ModularPostArrayAdapter extends ArrayAdapter<ModularPost>{
         LayoutInflater mInflater = (LayoutInflater) context
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.list_item, null);
+            convertView = mInflater.inflate(R.layout.post_item, null);
             holder = new ViewHolder();
             holder.markText = (TextView) convertView.findViewById(R.id.markText);
             holder.author = (TextView) convertView.findViewById(R.id.author);
             holder.topicText = (TextView) convertView.findViewById(R.id.topicText);
-            holder.contentPhoto = (ImageView) convertView.findViewById(R.id.contentPhoto);
+           // holder.contentPhoto = (ImageView) convertView.findViewById(R.id.contentPhoto);
             holder.profilePhoto = (ImageView) convertView.findViewById(R.id.profilePhoto);
 
             convertView.setTag(holder);

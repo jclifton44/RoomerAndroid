@@ -21,7 +21,7 @@ public class RoomerFragmentAdapter extends FragmentStatePagerAdapter {
                 return new FrontPagePosts();
             case 2:
                 // Movies fragment activity
-                return new FrontPagePosts();
+                return new FrontPageTopics();
             case 3:
                 // Movies fragment activity
                 return new FrontPageProf();
