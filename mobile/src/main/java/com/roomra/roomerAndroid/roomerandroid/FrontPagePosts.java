@@ -9,10 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 public class FrontPagePosts extends Fragment {
+
+    public static TextView radiusNumber;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     public static Context context;
     @Override
@@ -33,6 +38,20 @@ public class FrontPagePosts extends Fragment {
         postView.setAdapter(adapter);
         adapter.setupAdapterClickListener(postView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
+        SeekBar mSeekbarItem = (SeekBar) rootView.findViewById(R.id.radii);
+        radiusNumber = (TextView) rootView.findViewById(R.id.radiusNumber);
+        mSeekbarItem.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
+                radiusNumber.setText(Integer.toString(progress));
+            }
+        });
         return rootView;
     }
     @Override

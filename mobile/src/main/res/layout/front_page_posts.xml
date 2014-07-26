@@ -63,21 +63,34 @@
             android:textOff=""/>
         </RelativeLayout>
     </RelativeLayout>
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/input"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:background="@color/pastelWhite"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true" >
+        <TextView
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/radiusNumber"
+            android:text="4mi"
+            android:textSize="30sp"/>
         <SeekBar
             android:id="@+id/radii"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/radiusNumber"
             android:layout_margin="10dp"
             android:progress="20"
             android:secondaryProgress="20" />
 
-    </RelativeLayout>
+
+    </LinearLayout>
 
 
 
