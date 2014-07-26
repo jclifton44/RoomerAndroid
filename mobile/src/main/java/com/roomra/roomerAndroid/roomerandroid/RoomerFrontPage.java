@@ -41,6 +41,7 @@ public class RoomerFrontPage extends FragmentActivity {
         viewPager = (ViewPager) findViewById(R.id.pager);
         //viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(mDemoCollectionPagerAdapter);
+
         viewPager.setCurrentItem(1);
     }
 }

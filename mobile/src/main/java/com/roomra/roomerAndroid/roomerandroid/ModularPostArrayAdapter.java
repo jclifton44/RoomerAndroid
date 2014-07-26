@@ -5,12 +5,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 import java.util.List;
-
 /**
  * Created by jeremyclifton on 7/24/14.
  */
@@ -55,5 +57,17 @@ public class ModularPostArrayAdapter extends ArrayAdapter<ModularPost>{
 
 
         return convertView;
+    }
+    public void setupAdapterClickListener(ListView lv) {
+        lv.setOnItemClickListener(new OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // When clicked, show a toast with the TextView text
+
+                Toast.makeText(context,
+                        ((TextView) view.findViewById(R.id.markText)).getText(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

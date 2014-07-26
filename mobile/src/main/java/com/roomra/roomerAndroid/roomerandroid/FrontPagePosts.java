@@ -1,5 +1,6 @@
 package com.roomra.roomerAndroid.roomerandroid;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,14 +12,12 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class FrontPagePosts extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
+    public static Context context;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
 
         View rootView = inflater.inflate(R.layout.front_page_posts, container, false);
         List<ModularPost> posts = new ArrayList<ModularPost>();
@@ -28,9 +27,11 @@ public class FrontPagePosts extends Fragment {
         }
 
         ListView postView = (ListView) rootView.findViewById(R.id.postLists);
+
         ModularPostArrayAdapter adapter = new ModularPostArrayAdapter(this.getActivity(),
                 R.layout.post_item, posts);
         postView.setAdapter(adapter);
+        adapter.setupAdapterClickListener(postView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
         return rootView;
     }
