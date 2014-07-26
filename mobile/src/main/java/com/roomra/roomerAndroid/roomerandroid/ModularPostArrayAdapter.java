@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 /**
@@ -66,15 +65,16 @@ public class ModularPostArrayAdapter extends ArrayAdapter<ModularPost>{
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 // When clicked, show a toast with the TextView text
-                listContainer.smoothScrollToPosition(position);
+                //listContainer.smoothScrollToPosition(position);
+                listContainer.setSelectionFromTop(position, 0);
                 listContainer.post( new Runnable() {
                     @Override
                     public void run() {
                         //call smooth scroll
                     }
                 });
-                Toast.makeText(context,
-                        ((TextView) view.findViewById(R.id.markText)).getText() + " --- " + Integer.toString(position), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context,
+                //        ((TextView) view.findViewById(R.id.markText)).getText() + " --- " + Integer.toString(position), Toast.LENGTH_SHORT).show();
 
             }
         });

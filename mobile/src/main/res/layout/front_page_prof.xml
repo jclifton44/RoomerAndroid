@@ -13,6 +13,7 @@
         android:orientation="horizontal" android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
+            android:id="@+id/seal"
             android:src="@drawable/mr_seal"
             android:layout_width="150dp"
             android:layout_height="150dp">

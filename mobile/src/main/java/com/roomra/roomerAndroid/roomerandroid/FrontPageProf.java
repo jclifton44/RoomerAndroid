@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 public class FrontPageProf extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -16,6 +17,7 @@ public class FrontPageProf extends Fragment {
 
 
         View rootView = inflater.inflate(R.layout.front_page_prof, container, false);
+        ImageView image = (ImageView) rootView.findViewById(R.id.seal);
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
         return rootView;
     }
