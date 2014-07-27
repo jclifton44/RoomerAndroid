@@ -31,7 +31,7 @@ public class FrontPagePosts extends Fragment {
             posts.add(singlePost);
         }
 
-        ListView postView = (ListView) rootView.findViewById(R.id.postLists);
+        ListView postView = (ListView) rootView.findViewById(R.id.postView);
 
         ModularPostArrayAdapter adapter = new ModularPostArrayAdapter(this.getActivity(),
                 R.layout.post_item, posts);

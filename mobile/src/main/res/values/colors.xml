@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black_overlay">#66000000</color>
-    <color name="pastelRed">#ffff7878</color>
+    <color name="pastelRed">#ffff3300</color>
     <color name="pastelWhite">#FDFDFD</color>
     <color name="pastelWhiteOpaque">#DDFDFDFD</color>
     <color name="lightPastelRed">#F5A3A2</color>
     <color name="pastelBlue">#6666FF</color>
     <color name="black">#000000</color>
+    <color name="pastelOrange">#FF9933</color>
+    <color name="pastelGreen">#CCFF99</color>
+
+
 
 
 

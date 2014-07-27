@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FrontPageProf extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -18,6 +22,18 @@ public class FrontPageProf extends Fragment {
 
         View rootView = inflater.inflate(R.layout.front_page_prof, container, false);
         ImageView image = (ImageView) rootView.findViewById(R.id.seal);
+        List<ModularStory> stories = new ArrayList<ModularStory>();
+        for (int i = 0; i < 15; i++) {
+            ModularStory singleStory = new ModularStory("Despite their infrequent occurence in common conversation, the Appalacian mountin range is the oldest mountain range in the world.", "Mountains", R.drawable.mr_seal);
+            stories.add(singleStory);
+        }
+
+        ListView postView = (ListView) rootView.findViewById(R.id.storyView);
+
+        ModularStoryArrayAdapter adapter = new ModularStoryArrayAdapter(this.getActivity(),
+                R.layout.story_item, stories);
+        postView.setAdapter(adapter);
+        adapter.setupAdapterClickListener(postView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
         return rootView;
     }

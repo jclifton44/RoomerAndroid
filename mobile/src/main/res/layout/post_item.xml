@@ -22,14 +22,14 @@
         android:id="@+id/prof"
         android:layout_toRightOf="@+id/pin"
         >
-        <ImageView
+        <com.roomra.roomerAndroid.roomerandroid.CircleImageView
             android:src="@drawable/bobby"
             android:id="@+id/profilePhoto"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             >
 
-        </ImageView>
+        </com.roomra.roomerAndroid.roomerandroid.CircleImageView>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/post"
