@@ -12,7 +12,6 @@ import android.view.View.OnDragListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -43,18 +42,7 @@ public class FrontPagePosts extends Fragment implements OnDragListener {
         SeekBar mSeekbarItem = (SeekBar) rootView.findViewById(R.id.radii);
         radiusNumber = (TextView) rootView.findViewById(R.id.radiusNumber);
         RadiusSelector.updater = radiusNumber;
-        mSeekbarItem.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
-                radiusNumber.setText(RoomerConstants.getDistanceString(progress));
-            }
-        });
+
         return rootView;
     }
     @Override
