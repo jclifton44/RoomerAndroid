@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnDragListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -15,7 +17,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-public class FrontPagePosts extends Fragment {
+public class FrontPagePosts extends Fragment implements OnDragListener {
 
     public static TextView radiusNumber;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -40,6 +42,7 @@ public class FrontPagePosts extends Fragment {
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
         SeekBar mSeekbarItem = (SeekBar) rootView.findViewById(R.id.radii);
         radiusNumber = (TextView) rootView.findViewById(R.id.radiusNumber);
+        RadiusSelector.updater = radiusNumber;
         mSeekbarItem.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -49,7 +52,7 @@ public class FrontPagePosts extends Fragment {
             }
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
-                radiusNumber.setText(Integer.toString(progress));
+                radiusNumber.setText(RoomerConstants.getDistanceString(progress));
             }
         });
         return rootView;
@@ -65,5 +68,27 @@ public class FrontPagePosts extends Fragment {
                 //initiateRefresh();
             }
         });
+        view.setOnDragListener(this);
+    }
+    @Override
+    public boolean onDrag(View view, DragEvent dragEvent) {
+        Boolean containsDragable = true;
+        int dragAction = dragEvent.getAction();
+        View dragView = (View) dragEvent.getLocalState();
+        if (dragAction == DragEvent.ACTION_DRAG_EXITED) {
+            containsDragable = false;
+        } else if (dragAction == DragEvent.ACTION_DRAG_ENTERED) {
+            containsDragable = true ;
+        } else if (dragAction == DragEvent.ACTION_DRAG_ENDED) {
+            dragView.setVisibility(View.VISIBLE);
+        } else if (dragAction == DragEvent.ACTION_DROP && containsDragable) {
+
+            dragView.setVisibility(View.VISIBLE);
+
+        } else if (dragAction == DragEvent.ACTION_DRAG_LOCATION) {
+            ((TextView) radiusNumber).setText(dragEvent.getY()+"");
+
+        }
+        return true;
     }
 }

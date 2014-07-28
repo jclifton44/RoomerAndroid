@@ -5,16 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:padding="6dip" >
-    <ImageView
-        android:src="@drawable/pin_small"
-        android:id="@+id/pin"
-        android:layout_width="40dp"
-        android:layout_height="60dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        >
 
-    </ImageView>
     <LinearLayout
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -27,6 +18,8 @@
             android:id="@+id/profilePhoto"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+
             >
 
         </com.roomra.roomerAndroid.roomerandroid.CircleImageView>
@@ -49,6 +42,7 @@
             >
             <TextView
                 android:textSize="18sp"
+                android:layout_marginLeft="14dp"
                 android:layout_marginRight="14dp"
 
                 android:id="@+id/author"
@@ -77,6 +71,7 @@
 
         </LinearLayout>
         <TextView
+            android:lineSpacingExtra="-2dip"
             android:layout_marginLeft="14dp"
             android:textSize="16sp"
             android:id="@+id/markText"

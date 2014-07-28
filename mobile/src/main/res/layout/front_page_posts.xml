@@ -39,7 +39,6 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/fireIcon"
-                android:layout_toRightOf="@+id/peopleIcon"
                 android:src="@drawable/hot"/>
             <ImageView
                 android:layout_width="40dp"
@@ -70,16 +69,22 @@
         android:background="@color/pastelWhite"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true" >
+        <com.roomra.roomerAndroid.roomerandroid.RadiusSelector
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/geolo_small"></com.roomra.roomerAndroid.roomerandroid.RadiusSelector>
         <TextView
             android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="2dp"
             android:layout_marginTop="5dp"
-            android:layout_width="60dp"
+            android:layout_width="75dp"
             android:layout_height="60dp"
             android:layout_alignParentRight="true"
             android:id="@+id/radiusNumber"
-            android:text="4mi"
-            android:textSize="30sp"/>
+            android:text="3\nm"
+            android:gravity="right"
+
+            android:textSize="25sp"/>
         <SeekBar
             android:id="@+id/radii"
             android:layout_width="fill_parent"
@@ -88,8 +93,6 @@
             android:layout_margin="10dp"
             android:progress="20"
             android:secondaryProgress="20" />
-
-
     </LinearLayout>
 
 

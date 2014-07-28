@@ -5,9 +5,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -15,7 +18,7 @@ import java.lang.reflect.Field;
 
 public class FrontPageMapView extends Fragment {
     private static GoogleMap mMap;
-
+    public static View updater;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,7 +51,7 @@ public class FrontPageMapView extends Fragment {
     private static void setUpMap() {
         // For showing a move to my loction button
         mMap.setMyLocationEnabled(true);
-        LatLng sydney = new LatLng(-33.867, 151.206);
+        LatLng sydney = new LatLng(30.284719, -97.734164);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
         // For dropping a marker at a point on the Map
         //mMap.addMarker(new MarkerOptions().position(new LatLng(30.0,30.0)).title("My Home").snippet("Home Address"));
@@ -59,6 +62,7 @@ public class FrontPageMapView extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
+        updater = view;
         if (mMap != null)
             setUpMap();
 
@@ -66,11 +70,20 @@ public class FrontPageMapView extends Fragment {
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) RoomerFrontPage.fragmentManager
                     .findFragmentById(R.id.mapview)).getMap();
+            mMap.setOnMapClickListener(new OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng arg0) {
+                    RelativeLayout mapStory = (RelativeLayout) updater.findViewById(R.id.mapStory);
+                    ((ViewManager)mapStory.getParent()).removeView(mapStory);
+
+                }
+            });
             // Check if we were successful in obtaining the map.
             if (mMap != null)
                 setUpMap();
         }
     }
+
     @Override
     public void onDetach() {
         super.onDetach();

@@ -53,9 +53,10 @@
         android:layout_height="wrap_content">
         <com.roomra.roomerAndroid.roomerandroid.CircleImageView
             android:id="@+id/seal"
-            android:src="@drawable/mr_seal"
-            android:layout_width="150dp"
-            android:layout_height="150dp">
+            android:src="@drawable/bobby"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="10dp">
 
             </com.roomra.roomerAndroid.roomerandroid.CircleImageView>
         <LinearLayout
@@ -63,7 +64,12 @@
             android:layout_height="fill_parent"
             android:background="@color/pastelWhite"
             android:layout_margin="10dp">
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:src="@drawable/personal_star_small">
 
+            </ImageView>
             </LinearLayout>
 
     </LinearLayout>
