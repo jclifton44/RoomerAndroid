@@ -37,7 +37,7 @@
                 android:id="@+id/imageButtonSelector"
                 android:layout_width="40dp"
                 android:layout_height="fill_parent"
-                android:background="@drawable/community_selector"
+                android:background="@drawable/options"
                 android:layout_alignParentRight="true"
                 android:textOn=""
                 android:textOff=""/>

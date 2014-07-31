@@ -16,9 +16,9 @@
         android:background="@color/lightPastelRed"
         android:layout_below="@+id/tabbedIcons">
             <ListView
-                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/postView">
+                android:id="@+id/postView"
+                android:layout_width="wrap_content">
                 </ListView>
 
 
@@ -39,19 +39,19 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/fireIcon"
-                android:src="@drawable/hot"/>
+                android:src="@drawable/triangle_blue_small"/>
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/timeIcon"
                 android:layout_toRightOf="@+id/fireIcon"
-                android:src="@drawable/timer"/>
+                android:src="@drawable/circle_purple_small"/>
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/starredIcon"
                 android:layout_toRightOf="@+id/timeIcon"
-                android:src="@drawable/star"/>
+                android:src="@drawable/pentagon_green_small"/>
         <ToggleButton
             android:id="@+id/imageButtonSelector"
             android:layout_width="40dp"
@@ -63,36 +63,65 @@
         </RelativeLayout>
     </RelativeLayout>
     <LinearLayout
-        android:id="@+id/input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:id="@+id/control"
+        android:layout_alignParentBottom="true"
         android:background="@color/pastelWhite"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true" >
-        <com.roomra.roomerAndroid.roomerandroid.RadiusSelector
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/geolo_small"></com.roomra.roomerAndroid.roomerandroid.RadiusSelector>
-        <TextView
-            android:layout_gravity="center"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="75dp"
-            android:layout_height="60dp"
-            android:layout_alignParentRight="true"
-            android:id="@+id/radiusNumber"
-            android:text="3\nm"
-            android:gravity="right"
-
-            android:textSize="25sp"/>
-        <SeekBar
-            android:id="@+id/radii"
-            android:layout_width="fill_parent"
+        >
+        <RelativeLayout
+            android:id="@+id/input"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/radiusNumber"
-            android:layout_margin="10dp"
-            android:progress="20"
-            android:secondaryProgress="20" />
+            android:background="@color/pastelWhite"
+            android:orientation="vertical"
+            >
+            <com.roomra.roomerAndroid.roomerandroid.RadiusSelector
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/selector"
+                android:src="@drawable/geolo_small"></com.roomra.roomerAndroid.roomerandroid.RadiusSelector>
+            <TextView
+                android:layout_width="75dp"
+                android:layout_height="20dp"
+                android:id="@+id/radiusNumber"
+                android:text="3m"
+                android:layout_below="@id/selector"
+
+                android:gravity="left"
+                android:textSize="15sp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"/>
+        </RelativeLayout
+            >
+        <RelativeLayout
+            android:layout_height="fill_parent"
+            android:id="@+id/editor"
+            android:layout_width="wrap_content">
+        </RelativeLayout>
+        <RelativeLayout
+        android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+        android:id="@+id/action"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+            <ImageView
+                android:id="@+id/camera"
+                android:src="@drawable/camera"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+
+                android:layout_width="35dp"/>
+            <ImageView
+                android:id="@+id/send"
+                android:layout_below="@id/camera"
+                android:src="@drawable/send"
+                android:layout_alignParentRight="true"
+
+                android:layout_height="35dp"
+                android:layout_width="40dp"/>
+
+        </RelativeLayout>
     </LinearLayout>
 
 
