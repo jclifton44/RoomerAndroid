@@ -1,5 +1,6 @@
 package com.roomra.roomerAndroid.roomerandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -29,7 +30,14 @@ public class FrontPageProf extends Fragment {
         }
 
         ListView postView = (ListView) rootView.findViewById(R.id.storyView);
-
+        ImageView settings = (ImageView) rootView.findViewById(R.id.settings);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PreferencesPanel.class);
+                startActivity(intent);
+            }
+        });
         ModularStoryArrayAdapter adapter = new ModularStoryArrayAdapter(this.getActivity(),
                 R.layout.story_item, stories);
         postView.setAdapter(adapter);

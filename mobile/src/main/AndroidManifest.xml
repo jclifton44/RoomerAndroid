@@ -38,7 +38,7 @@
         <meta-data 
         	android:name="android.support.PARENT_ACTIVITY" android:value="com.example.roomer_alt.RoomerHome" >    
         </meta-data></activity>
-        <activity android:theme="@style/Theme.AppCompat" android:label="@string/title_activity_settings" android:name="com.roomra.roomerAndroid.roomerandroid.SettingsActivity" android:windowSoftInputMode="stateHidden|adjustResize" android:parentActivityName="com.roomra.roomerAndroid.roomerandroid.RoomerFrontPage" />
+        <activity android:theme="@style/Theme.AppCompat" android:label="@string/title_activity_settings" android:name="com.roomra.roomerAndroid.roomerandroid.PreferencesPanel" android:windowSoftInputMode="stateHidden|adjustResize" android:parentActivityName="com.roomra.roomerAndroid.roomerandroid.PreferencesPanel" />
 
         <receiver android:name='com.roomra.roomerAndroid.roomerandroid.TaskBroadcastReceiver'>
         </receiver>
