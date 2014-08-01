@@ -34,7 +34,7 @@ public class FrontPageProf extends Fragment {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PreferencesPanel.class);
+                Intent intent = new Intent(getActivity(), PreferencesPage.class);
                 startActivity(intent);
             }
         });

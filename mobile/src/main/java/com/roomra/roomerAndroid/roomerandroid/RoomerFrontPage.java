@@ -17,6 +17,7 @@ public class RoomerFrontPage extends FragmentActivity {
     public static FragmentManager fragmentManager;
     public static DrawerLayout mDrawerLayout;
     public static ListView mDrawerList;
+    public static  RoomerFrontPage rfp;
     ActionBar actionBar;
     ViewPager viewPager;
     private String[] tabs = { "Top Rated", "Games", "Movies" };
@@ -24,6 +25,7 @@ public class RoomerFrontPage extends FragmentActivity {
 
 
     public void onCreate(Bundle savedInstanceState) {
+        rfp = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.front_page_roomer);
         actionBar = getActionBar();
