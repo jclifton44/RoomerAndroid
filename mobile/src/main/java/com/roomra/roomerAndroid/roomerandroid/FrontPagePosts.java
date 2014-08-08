@@ -26,6 +26,8 @@ public class FrontPagePosts extends Fragment implements OnDragListener {
     public static SharedPreferencesEditor spe;
     public static ArrayList<BasicNameValuePair> pv = new ArrayList<BasicNameValuePair>();
     public static Task task;
+    public static AsyncConnection ac;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,7 +94,7 @@ public class FrontPagePosts extends Fragment implements OnDragListener {
     public boolean getMarks() {
         pv.clear();
         pv.add(new BasicNameValuePair("accessToken", this.spe.getAuthToken() ));
-        task = new Task(TaskType.GETMARKS, "oauth2/authenticate", pv);
+        task = new Task(TaskType.GETMARKS, "db/marks/get", pv);
         ac = new AsyncConnection(false, task);
         if(!this.clientRegistered()) {
             Log.d("Regsitering Client with Owner", "567890987654345678909876543");
