@@ -62,7 +62,7 @@
             android:textOff=""/>
         </RelativeLayout>
     </RelativeLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="70dp"
         android:id="@+id/control"
@@ -92,16 +92,11 @@
                 android:textSize="15sp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"/>
-        </RelativeLayout
-            >
-        <RelativeLayout
-            android:layout_height="fill_parent"
-            android:id="@+id/editor"
-            android:layout_width="wrap_content">
         </RelativeLayout>
+
         <RelativeLayout
-        android:layout_width="wrap_content"
-            android:layout_alignParentRight="true"
+        android:layout_width="35dp"
+        android:layout_alignParentRight="true"
         android:id="@+id/action"
         android:layout_height="fill_parent"
         android:orientation="vertical">
@@ -112,7 +107,7 @@
                 android:layout_alignParentRight="true"
 
                 android:layout_width="35dp"/>
-            <ImageView
+                <ImageView
                 android:id="@+id/send"
                 android:layout_below="@id/camera"
                 android:src="@drawable/send"
@@ -122,7 +117,17 @@
                 android:layout_width="40dp"/>
 
         </RelativeLayout>
-    </LinearLayout>
+        <RelativeLayout
+            android:layout_height="fill_parent"
+            android:id="@+id/editor"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@id/input"
+            android:layout_toLeftOf="@id/action">
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+        </RelativeLayout>
+    </RelativeLayout>
 
 
 

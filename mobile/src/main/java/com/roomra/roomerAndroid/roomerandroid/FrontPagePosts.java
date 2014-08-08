@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import org.apache.http.message.BasicNameValuePair;
+
 import java.util.ArrayList;
 import java.util.List;
 public class FrontPagePosts extends Fragment implements OnDragListener {
@@ -21,10 +23,14 @@ public class FrontPagePosts extends Fragment implements OnDragListener {
     public static TextView radiusNumber;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     public static Context context;
+    ArrayList<BasicNameValuePair> pv = new ArrayList<BasicNameValuePair>();
+    String path = "";
+    Task task;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        Task.spe = new SharedPreferencesEditor(getApplication(), RoomerConstants.PREFS_FILE);
         View rootView = inflater.inflate(R.layout.front_page_posts, container, false);
         List<ModularPost> posts = new ArrayList<ModularPost>();
         for (int i = 0; i < 15; i++) {
@@ -78,5 +84,17 @@ public class FrontPagePosts extends Fragment implements OnDragListener {
 
         }
         return true;
+    }
+    public boolean getMarks(void) {
+        Log.d("UPDATING MARKS", "MARKS");
+        pv.clear();
+        pv.add(new BasicNameValuePair("userId", un));
+        pv.add(new BasicNameValuePair("password", password));
+        task = new Task(TaskType.SIGNON, "oauth2/authenticate", pv);
+        ac = new AsyncConnection(false, task);
+        if(!this.clientRegistered()) {
+            Log.d("Regsitering Client with Owner", "567890987654345678909876543");
+            //downloadUserInfo(1000L);
+            downloadClientIdentifier(3000L);
     }
 }
