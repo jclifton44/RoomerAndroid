@@ -13,6 +13,7 @@ public enum TaskType {
     REGISTERCLIENT,
     CHECKTOKEN,
     GETUSERINFO,
+    GETMARKS,
     NOP
 
 }

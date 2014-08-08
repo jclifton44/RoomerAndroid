@@ -23,33 +23,15 @@ public class FrontPagePosts extends Fragment implements OnDragListener {
     public static TextView radiusNumber;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     public static Context context;
-    ArrayList<BasicNameValuePair> pv = new ArrayList<BasicNameValuePair>();
-    String path = "";
-    Task task;
+    public static SharedPreferencesEditor spe;
+    public static ArrayList<BasicNameValuePair> pv = new ArrayList<BasicNameValuePair>();
+    public static Task task;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Task.spe = new SharedPreferencesEditor(getApplication(), RoomerConstants.PREFS_FILE);
-        View rootView = inflater.inflate(R.layout.front_page_posts, container, false);
-        List<ModularPost> posts = new ArrayList<ModularPost>();
-        for (int i = 0; i < 15; i++) {
-            ModularPost singlePost = new ModularPost("Despite their infrequent occurence in common conversation, the Appalacian mountin range is the oldest mountain range in the world.", "This A. Name", "Mountains", R.drawable.bobby, R.drawable.mr_seal);
-            posts.add(singlePost);
-        }
+        return setupView(inflater,container);
 
-        ListView postView = (ListView) rootView.findViewById(R.id.postView);
-
-        ModularPostArrayAdapter adapter = new ModularPostArrayAdapter(this.getActivity(),
-                R.layout.post_item, posts);
-        postView.setAdapter(adapter);
-        adapter.setupAdapterClickListener(postView);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
-        SeekBar mSeekbarItem = (SeekBar) rootView.findViewById(R.id.radii);
-        radiusNumber = (TextView) rootView.findViewById(R.id.radiusNumber);
-        RadiusSelector.updater = radiusNumber;
-
-        return rootView;
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -85,12 +67,32 @@ public class FrontPagePosts extends Fragment implements OnDragListener {
         }
         return true;
     }
-    public boolean getMarks(void) {
-        Log.d("UPDATING MARKS", "MARKS");
+    public View setupView(LayoutInflater inflater, ViewGroup container) {
+        this.spe = new SharedPreferencesEditor(getActivity(), RoomerConstants.PREFS_FILE);
+        View rootView = inflater.inflate(R.layout.front_page_posts, container, false);
+        ListView postView = (ListView) rootView.findViewById(R.id.postView);
+        List<ModularPost> posts = new ArrayList<ModularPost>();
+        for (int i = 0; i < 15; i++) {
+            ModularPost singlePost = new ModularPost("Despite their infrequent occurence in common conversation, the Appalacian mountin range is the oldest mountain range in the world.", "This A. Name", "Mountains", R.drawable.bobby, R.drawable.mr_seal);
+            posts.add(singlePost);
+        }
+
+
+        ModularPostArrayAdapter adapter = new ModularPostArrayAdapter(this.getActivity(),
+                R.layout.post_item, posts);
+        postView.setAdapter(adapter);
+        adapter.setupAdapterClickListener(postView);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
+        SeekBar mSeekbarItem = (SeekBar) rootView.findViewById(R.id.radii);
+        radiusNumber = (TextView) rootView.findViewById(R.id.radiusNumber);
+        RadiusSelector.updater = radiusNumber;
+        return rootView;
+    }
+}
+    public boolean getMarks() {
         pv.clear();
-        pv.add(new BasicNameValuePair("userId", un));
-        pv.add(new BasicNameValuePair("password", password));
-        task = new Task(TaskType.SIGNON, "oauth2/authenticate", pv);
+        pv.add(new BasicNameValuePair("accessToken", this.spe.getAuthToken() ));
+        task = new Task(TaskType.GETMARKS, "oauth2/authenticate", pv);
         ac = new AsyncConnection(false, task);
         if(!this.clientRegistered()) {
             Log.d("Regsitering Client with Owner", "567890987654345678909876543");

@@ -1,14 +1,13 @@
 package com.roomra.roomerAndroid.roomerandroid;
-import org.apache.http.message.BasicNameValuePair;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 import android.util.Log;
-import android.content.Context;
-import com.google.gson.Gson;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
 
 /**
  * Created by jeremyclifton on 7/9/14.
@@ -44,6 +43,8 @@ public class Task {
                 if(spe.getClientId() == "false") {
                     retval = AsyncConnection.secureRESTCall(path, postVars);
                 }
+           case GETMARKS:
+               retval = AsyncConnection.secureRESTCall(path,postVars);
            default:
                return "";
        }
@@ -82,6 +83,8 @@ public class Task {
                     spe.putUserBlock(result);
                     spe.putUserName(((JsonObject)new JsonParser().parse(result)).get("username").getAsString());
                     Log.d("USER", "SAVING");
+                case GETMARKS:
+                    spe.putMarkBuffer(result);
 
                     break;
 
