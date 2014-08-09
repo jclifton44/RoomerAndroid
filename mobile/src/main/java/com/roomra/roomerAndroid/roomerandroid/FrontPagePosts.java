@@ -105,7 +105,7 @@ public class FrontPagePosts extends Fragment implements OnDragListener {
     public boolean getMarks() {
         pv.clear();
         pv.add(new BasicNameValuePair("accessToken", this.spe.getAuthToken() ));
-        task = new Task(TaskType.GETMARKS, "db/marks/get", pv);
+        task = new Task(TaskType.GETMARKS, "db/mark/get", pv);
         ac = new AsyncConnection(false, task);
         ac.connect();
         return true;

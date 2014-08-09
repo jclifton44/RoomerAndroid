@@ -14,7 +14,7 @@ public class SharedPreferencesEditor
     public String preferenceName = "false";
 
     /*
-    Most of these are one liners. We can add a transformation layer as needed, though :)
+    Most of these are singletons. We can add a transformation layer as needed, though :)
      */
     public SharedPreferencesEditor(Context paramContext, String paramString)
     {
