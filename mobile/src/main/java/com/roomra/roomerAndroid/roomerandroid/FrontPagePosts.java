@@ -1,6 +1,7 @@
 package com.roomra.roomerAndroid.roomerandroid;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -74,12 +75,11 @@ public class FrontPagePosts extends Fragment implements OnDragListener {
         View rootView = inflater.inflate(R.layout.front_page_posts, container, false);
         ListView postView = (ListView) rootView.findViewById(R.id.postView);
         List<ModularPost> posts = new ArrayList<ModularPost>();
+
         for (int i = 0; i < 15; i++) {
             ModularPost singlePost = new ModularPost("Despite their infrequent occurence in common conversation, the Appalacian mountin range is the oldest mountain range in the world.", "This A. Name", "Mountains", R.drawable.bobby, R.drawable.mr_seal);
             posts.add(singlePost);
         }
-
-
         ModularPostArrayAdapter adapter = new ModularPostArrayAdapter(this.getActivity(),
                 R.layout.post_item, posts);
         postView.setAdapter(adapter);
@@ -88,17 +88,26 @@ public class FrontPagePosts extends Fragment implements OnDragListener {
         SeekBar mSeekbarItem = (SeekBar) rootView.findViewById(R.id.radii);
         radiusNumber = (TextView) rootView.findViewById(R.id.radiusNumber);
         RadiusSelector.updater = radiusNumber;
+        //setup listener
+        SharedPreferences.OnSharedPreferenceChangeListener sharedPreferencesListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if(key == "key_mark_buffer") {
+                    Log.d("These are a few of the Marks", spe.getMarkBuffer());
+                }
+            }
+        };
+        getMarks();
+        spe.getPref().registerOnSharedPreferenceChangeListener(sharedPreferencesListener);
         return rootView;
     }
-}
+
     public boolean getMarks() {
         pv.clear();
         pv.add(new BasicNameValuePair("accessToken", this.spe.getAuthToken() ));
         task = new Task(TaskType.GETMARKS, "db/marks/get", pv);
         ac = new AsyncConnection(false, task);
-        if(!this.clientRegistered()) {
-            Log.d("Regsitering Client with Owner", "567890987654345678909876543");
-            //downloadUserInfo(1000L);
-            downloadClientIdentifier(3000L);
+        ac.connect();
+        return true;
     }
 }

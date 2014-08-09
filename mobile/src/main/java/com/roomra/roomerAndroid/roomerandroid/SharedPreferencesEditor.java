@@ -10,7 +10,7 @@ import java.lang.String;
 public class SharedPreferencesEditor
 {
     public Editor ed;
-    public SharedPreferences pref;
+    private SharedPreferences pref;
     public String preferenceName = "false";
 
     /*
@@ -19,10 +19,19 @@ public class SharedPreferencesEditor
     public SharedPreferencesEditor(Context paramContext, String paramString)
     {
         this.pref = paramContext.getSharedPreferences(paramString, 0);
-        //this.preferenceName = paramString;
         ed = getEditor();
+
     }
 
+    public void setupListListener(){
+
+    }
+    public SharedPreferences getPref() {
+        return this.pref;
+    }
+    public void setPref(SharedPreferences pref) {
+        this.pref = pref;
+    }
     public void commitChanges()
     {
         this.ed.commit();
@@ -69,6 +78,9 @@ public class SharedPreferencesEditor
     public Long getExpiry() { return this.pref.getLong("key_expiry", 0);}
 
     public Long getCreationTime() { return this.pref.getLong("key_time", 0);}
+
+    public String getMarkBuffer() { return this.pref.getString("key_mark_buffer", this.preferenceName);}
+
 
     public void putUserBlock(String paramString) {
         this.ed.putString("key_block", paramString);
@@ -121,6 +133,11 @@ public class SharedPreferencesEditor
     }
     public void putCreationTime(Long paramInt) {
         this.ed.putLong("key_time", paramInt);
+        this.ed.commit();
+    }
+
+    public void putMarkBuffer(String paramString) {
+        this.ed.putString("key_mark_buffer", paramString);
         this.ed.commit();
     }
 }
