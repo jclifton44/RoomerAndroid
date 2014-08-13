@@ -1,44 +1,30 @@
 package com.roomra.roomerAndroid.roomerandroid;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.os.AsyncTask;
-import android.os.Build.VERSION;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.http.HttpResponse;
+
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import android.hardware.Camera;
 @SuppressLint("NewApi")
 public class ScreenRegister extends Activity
 {
@@ -56,6 +42,8 @@ public class ScreenRegister extends Activity
     private EditText mPasswordView;
     private String mUserName;
     private EditText mUserNameView;
+    private Camera mCamera;
+    private CameraPreview mPreview;
     public Toast toast;
 
 
@@ -151,6 +139,13 @@ public class ScreenRegister extends Activity
         this.mPasswordView = ((EditText)findViewById(R.id.password));
         this.mHandleView = ((EditText)findViewById(R.id.handle));
         this.mLoginFormView = findViewById(R.id.login);
+        mCamera = getCameraInstance();
+
+
+        // Create our Preview view and set it as the content of our activity.
+        mPreview = new CameraPreview(this, mCamera);
+        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        preview.addView(mPreview);
         findViewById(R.id.textView1).setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View paramAnonymousView)

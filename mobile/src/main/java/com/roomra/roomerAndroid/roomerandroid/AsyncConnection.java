@@ -1,25 +1,21 @@
 package com.roomra.roomerAndroid.roomerandroid;
 import android.os.AsyncTask;
 import android.util.Log;
-import org.apache.http.cookie.Cookie;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HttpContext;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.ClientContext;
+import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.util.EntityUtils;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.NameValuePair;
-import org.apache.http.impl.cookie.BasicClientCookie;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.HttpResponse;
-import org.apache.http.util.EntityUtils;
-import org.apache.http.protocol.BasicHttpContext;
-import android.webkit.CookieSyncManager;
-import android.webkit.CookieManager;
-import java.net.CookieStore;
 /**
  * Created by jeremyclifton on 7/9/14.
  */
@@ -91,6 +87,7 @@ public class AsyncConnection extends AsyncTask<Task, Integer, ArrayList<NameValu
 
 
             finalResponse = EntityUtils.toString(response.getEntity());
+
             //finalResponse = finalResponse.replace("\"","");
         } catch(Exception e) {
             System.out.println("error: %s"  + e);

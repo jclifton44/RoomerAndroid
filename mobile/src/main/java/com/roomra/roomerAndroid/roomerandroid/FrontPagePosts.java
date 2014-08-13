@@ -92,13 +92,16 @@ public class FrontPagePosts extends Fragment implements OnDragListener {
         SharedPreferences.OnSharedPreferenceChangeListener sharedPreferencesListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                Log.d("These are a few of the Marks", "asdf");
+
                 if(key == "key_mark_buffer") {
                     Log.d("These are a few of the Marks", spe.getMarkBuffer());
                 }
             }
         };
-        getMarks();
         spe.getPref().registerOnSharedPreferenceChangeListener(sharedPreferencesListener);
+
+        getMarks();
         return rootView;
     }
 

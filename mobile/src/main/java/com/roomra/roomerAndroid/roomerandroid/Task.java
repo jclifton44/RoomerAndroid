@@ -37,14 +37,15 @@ public class Task {
            case UPDATECLIENT:
            case CHECKTOKEN:
            case GETUSERINFO:
-                retval = AsyncConnection.secureRESTCall(path, postVars);
+           case GETMARKS:
+               retval = AsyncConnection.secureRESTCall(path, postVars);
                 break;
            case REGISTERCLIENT:
                 if(spe.getClientId() == "false") {
                     retval = AsyncConnection.secureRESTCall(path, postVars);
                 }
-           case GETMARKS:
                retval = AsyncConnection.secureRESTCall(path,postVars);
+               break;
            default:
                return "";
        }
@@ -53,9 +54,12 @@ public class Task {
     public static void postExecute(String type, String result){
         Log.d("POST HANDLE", type);
         Log.d("POST RESULT", result);
-
+        JsonObject jsonObject = null;
         TaskType resultTaskType = TaskType.valueOf(type);
-        if(((JsonObject)new JsonParser().parse(result)).get("error") == null) {
+        if(result != "" && result != null) {
+            jsonObject = (JsonObject)new JsonParser().parse(result);
+        }
+        if(jsonObject != null && jsonObject.get("error") == null) {
             switch (resultTaskType) {
                 case REFRESHTOKENS:
                 case REOPEN:
@@ -92,7 +96,9 @@ public class Task {
                     Log.d("DEFAULT", "NO RESULT");
             }
         } else {
-            Log.d("ERROR: ", ((JsonObject)new JsonParser().parse(result)).get("error").getAsString());
+            if(jsonObject != null && jsonObject.get("error") != null) {
+                Log.d("ERROR: ", ((JsonObject)new JsonParser().parse(result)).get("error").getAsString());
+            }
         }
     }
     public void reloadTaskData() {

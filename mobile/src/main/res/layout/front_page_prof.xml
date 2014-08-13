@@ -6,7 +6,7 @@
     android:background="@color/pastelGreen">
 
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal" android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.roomra.roomerAndroid.roomerandroid.CircleImageView
@@ -17,12 +17,21 @@
             android:layout_margin="10dp">
 
             </com.roomra.roomerAndroid.roomerandroid.CircleImageView>
+        <ImageView
+            android:id="@+id/settings"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/options"
+            android:layout_alignParentRight="true"
+            android:textOn=""
+            android:textOff=""/>
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:background="@color/pastelWhite"
             android:layout_margin="10dp"
-
+            android:layout_toRightOf="@id/seal"
+            android:layout_toLeftOf="@id/settings"
             android:padding="15dp">
             <ImageView
                 android:layout_width="30dp"
@@ -36,16 +45,9 @@
                 android:text=":42"
                 android:textSize="28dip"/>
             </LinearLayout>
-        <ImageView
-            android:id="@+id/settings"
-            android:layout_width="40dp"
-            android:layout_height="fill_parent"
-            android:background="@drawable/options"
-            android:layout_alignParentRight="true"
-            android:textOn=""
-            android:textOff=""/>
 
-    </LinearLayout>
+
+    </RelativeLayout>
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="28dp"
