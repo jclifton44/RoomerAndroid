@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,7 +25,6 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import android.hardware.Camera;
 @SuppressLint("NewApi")
 public class ScreenRegister extends Activity
 {
@@ -139,7 +139,7 @@ public class ScreenRegister extends Activity
         this.mPasswordView = ((EditText)findViewById(R.id.password));
         this.mHandleView = ((EditText)findViewById(R.id.handle));
         this.mLoginFormView = findViewById(R.id.login);
-        mCamera = getCameraInstance();
+        mCamera = Camera.open();
 
 
         // Create our Preview view and set it as the content of our activity.
