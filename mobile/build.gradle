@@ -23,7 +23,6 @@ repositories {
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    wearApp project(':wear')
 
     compile group: 'com.google.guava', name: 'guava', version: '15.0'
     compile files('libs/gson-2.2.4.jar')
