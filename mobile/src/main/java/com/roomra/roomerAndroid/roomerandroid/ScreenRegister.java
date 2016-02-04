@@ -124,6 +124,13 @@ public class ScreenRegister extends Activity
         {
         }
     }
+    protected void onStop(){
+        super.onStop();
+        Log.d("Stopping", "NOW");
+        mCamera.release();
+        mCamera = null;
+
+    }
 
 
     protected void onCreate(Bundle paramBundle)
